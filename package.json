@@ -1,0 +1,22 @@
+{
+  "name": "topui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/papiro/topui.git"
+  },
+  "author": "papiro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/papiro/topui/issues"
+  },
+  "homepage": "https://gitlab.com/papiro/topui#README",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}

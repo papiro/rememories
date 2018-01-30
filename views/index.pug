@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="description" content="Rememories: An image and video uploading hub, geared towards families who snap a lot of photos and videos on their phones and want to share them with each other.")
+    meta(name="author" content="Pierre Pirault")
+    meta(name="copyright" content="Pierre Pirault")
+    	
+    link(href="/css/index.css")
+    link(href="/css/home.css")
+	  if isProd
+	  	script(src="https://unpkg.com/react@16/umd/react.production.min.js")
+	  	script(src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js")
+
+  body
+    if isMobile
+      a(href="http://play.google.com/store/apps/details?id=com.google.android.apps.maps") Download the app
+
+    main
+	    h2 Sign-in with
+	   	button(class="google-button") 
+	   	button(class="facebook-button")

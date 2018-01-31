@@ -8,15 +8,11 @@ html
     	
     link(href="/css/index.css")
     link(href="/css/home.css")
-	  if isProd
-	  	script(src="https://unpkg.com/react@16/umd/react.production.min.js")
-	  	script(src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js")
+
+    script(src="/js/dist.js")
 
   body
     if isMobile
       a(href="http://play.google.com/store/apps/details?id=com.google.android.apps.maps") Download the app
 
-    main
-	    h2 Sign-in with
-	   	button(class="google-button") 
-	   	button(class="facebook-button")
+    <div id="app"></div>

@@ -4,7 +4,9 @@
   "description": "share photos and videos with friends and families",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "yarn run webpack --config webpack.config.js",
+    "watch": "yarn run webpack --watch --config webpack.config.js",
+    "buildprod": "yarn run webpack --config webpack.config.js --env.production"
   },
   "repository": "git+ssh://git@gitlab.com/papiro/rememories.git",
   "author": "papiro",
@@ -14,6 +16,9 @@
   },
   "homepage": "https://gitlab.com/papiro/topui#README",
   "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
     "connect-redis": "^3.3.3",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
@@ -21,8 +26,11 @@
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
     "pug": "^2.0.0-rc.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "redis": "^2.8.0",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "uglifyjs-webpack-plugin": "^1.1.8"
   },
   "devDependencies": {
     "webpack": "^3.10.0"

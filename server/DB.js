@@ -18,6 +18,7 @@ connection.query(
     type VARCHAR(20) NOT NULL,
     email VARCHAR(40),
     password CHAR(129),
+    created TIMESTAMP NOT NULL,
     PRIMARY KEY(id)
   )`
 )
@@ -44,26 +45,24 @@ connection.query(
   `CREATE TABLE IF NOT EXISTS files (
     id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
     filepath CHAR(75) NOT NULL,
-    created TIMESTAMP NOT NULL,
     size FLOAT NOT NULL,
     type VARCHAR(20) NOT NULL,
     length TIME,
+    created TIMESTAMP NOT NULL,
     PRIMARY KEY(id)
   )`
 )
 
 class DB {
   static addUser ({ id, type, email, password }) {
-    connection.query(
+    return connection.query(
       `INSERT INTO users VALUES(
-        ${id},   
+        ${id}, 
         ${type},
         ${email},
-        ${password}
-      )`,
-      (err, results, fields) => {
-        
-      }
+        ${password},
+        ${Date.now()}
+      ) ON DUPLICATE KEY UPDATE email=${email}, password=${password}`
     )
   }
 }

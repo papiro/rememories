@@ -1,7 +1,8 @@
 'use strict'
 
 const
-  debug = require('util').debuglog('rememories')
+  debug = require('util').debuglog('rememories'),
+  User = require('./models').User
 ,
   passport = require('passport'),
   strategies = {
@@ -21,13 +22,28 @@ module.exports = (app) => {
   }, (accessToken, refreshToken, profile, done) => {
     debug(accessToken)
     debug(profile)
-    done()
+    (new User())
+      .then(() => {
+        debug('User found/added')
+        done()
+      })
+      .catch( err => {
+        done(err)
+      })
   }))
   passport.serializeUser( (user, done) => {
+    debug('Serializing user:::', user)
     done(null, user.id)
   })
   passport.deserializeUser( (id, done) => {
-    
+    User.getById(id)
+      .then( user => {
+        debug('Deserializing user:::', user)
+        done(null, user)
+      })
+      .catch( err => {
+        done(err)
+      })
   })
   app.get('/sign-in/google', passport.authenticate('google', {
     scope: ['profile']

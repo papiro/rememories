@@ -1,6 +1,8 @@
 'use strict'
 
 const
+  debug = require('util').debuglog('rememories')
+,
   routes = require('./data/routes')
 ;
 

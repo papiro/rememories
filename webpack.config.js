@@ -3,13 +3,14 @@
 const
   path = require('path')
 ,
+  webpack = require('webpack'),
   UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 ;
 
 module.exports = (env) => {
   const 
-    isProd = !!env.production,
-    isDev = !env.production
+    isProd = !!(env && env.production),
+    isDev = !isProd
   ;
 
   return {

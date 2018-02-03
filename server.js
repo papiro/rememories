@@ -31,6 +31,7 @@ initpassport(app)
 initdb(app)
 registerRoutes(app)
 
+app.use(express.static('public'))
 app.use( (req, res, done) => {
   const mobdet = new MobileDetect(req.headers['user-agent'])
   req.isMobile = mobdet.mobile()

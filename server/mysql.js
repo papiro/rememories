@@ -15,8 +15,8 @@ const
 connection.query(
   `CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(40) NOT NULL,
-    email VARCHAR(40) NOT NULL,
-    type VARCHAR(20),
+    type VARCHAR(20) NOT NULL,
+    email VARCHAR(40),
     password CHAR(129),
     PRIMARY KEY(id)
   )`
@@ -53,15 +53,19 @@ connection.query(
 )
 
 class DB {
-  addUser (user) {
+  static addUser ({ id, type, email, password }) {
     connection.query(
       `INSERT INTO users VALUES(
+        ${id},   
+        ${type},
+        ${email},
+        ${password}
+      )`,
+      (err, results, fields) => {
         
-        base
-
+      }
+    )
   }
 }
 
-module.exports = (app) => {
-    
-}
+module.exports = DB

@@ -1,7 +1,8 @@
 'use strict'
 
 const
-  debug = require('util').debuglog('rememories')
+  debug = require('util').debuglog('rememories'),
+  errors = require('./errors')
 ,
   mysql = require('mysql2'),
   connection = mysql.createConnection({
@@ -13,6 +14,7 @@ const
 
 class User {
   constructor ({ id, type = 'base' }) {
-    if (!id) throw new ReferenceError('
+    if (!id) return errors(new ReferenceError('new User being called with no id'))
+
   }
 }

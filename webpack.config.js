@@ -22,12 +22,12 @@ module.exports = (env) => {
     module: {
       rules: [
         {
-          test: /\.jsx/$/,
+          test: /\.jsx?$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['babel-preset-env']
+              presets: ['babel-preset-env', 'babel-preset-react']
             }
           }
         }
@@ -42,11 +42,12 @@ module.exports = (env) => {
       :
       [
         new webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify('production')
+          'process.env.NODE_ENV': JSON.stringify('prod')
         }),
         new UglifyJSPlugin({
           sourceMap: true
         })
       ]
+    )
   }
 }

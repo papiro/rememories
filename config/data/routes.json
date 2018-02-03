@@ -1,12 +1,10 @@
 {
-  "routes": {
-    "index": {
-      "url": "/",
-      "tpl": "index"
-    },
-    "dashboard": {
-      "url": "/dashboard",
-      "tpl": "dashboard"
-    }
+  "index": {
+    "url": "/",
+    "tpl": "index"
+  },
+  "dashboard": {
+    "url": "/dashboard",
+    "tpl": "dashboard"
   }
 }

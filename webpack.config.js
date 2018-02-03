@@ -14,7 +14,7 @@ module.exports = (env) => {
   ;
 
   return {
-    entry: path.resolve('src', 'index.js'),
+    entry: 'index.js',
     output: {
       filename: 'dist.js',
       path: path.join(__dirname, 'public', 'js') 

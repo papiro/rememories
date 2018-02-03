@@ -10,9 +10,9 @@ const
   express = require('express'),
   app = express()
 ,
-  registerRoutes = require('./config/routes'),
-  initpassport = require('./config/passport'),
-  initdb = require('./config/mysql')
+  registerRoutes = require('./server/routes'),
+  initpassport = require('./server/passport'),
+  initdb = require('./server/mysql')
 ,
   session = require('express-session'),
   RedisStore = require('connect-redis')(session)
@@ -20,6 +20,7 @@ const
 
 app.set('prod', prod)
 app.set('view engine', 'pug')
+app.set('views', path.resolve('./server/views'))
 
 app.use(session({
   store: new RedisStore(),

@@ -16,23 +16,26 @@
   },
   "homepage": "https://gitlab.com/papiro/topui#README",
   "dependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.1",
     "connect-redis": "^3.3.3",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "mobile-detect": "^1.4.1",
+    "mysql2": "^1.5.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
     "pug": "^2.0.0-rc.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
     "redis": "^2.8.0",
-    "redux": "^3.7.2",
-    "uglifyjs-webpack-plugin": "^1.1.8"
+    "redux": "^3.7.2"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "uglifyjs-webpack-plugin": "^1.1.8",
     "webpack": "^3.10.0"
   },
   "private": true

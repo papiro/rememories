@@ -11,7 +11,8 @@ const
   app = express()
 ,
   registerRoutes = require('./config/routes'),
-  initpassport = require('./config/passport')
+  initpassport = require('./config/passport'),
+  initdb = require('./config/mysql')
 ,
   session = require('express-session'),
   RedisStore = require('connect-redis')(session)
@@ -24,9 +25,10 @@ app.use(session({
   store: new RedisStore(),
   secret: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
   resave: false
-})
+}))
 
 initpassport(app)
+initdb(app)
 registerRoutes(app)
 
 app.use( (req, res, done) => {

@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 class SigninWidget extends React.Component {
   render () {
     return (
-      <button data-href={'/sign-in/' + this.props.type} className={this.props.type + '-button'}></button>
+      <a href={'/sign-in/' + this.props.type} className={this.props.type + '-button'}></a>
     )
   }
 }

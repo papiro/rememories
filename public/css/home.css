@@ -13,7 +13,7 @@ h2 {
 .signin-widgets {
   display: flex;
 }
-.signin-widgets button {
+.signin-widgets a {
   height: 10em;
   width: 10em;
   background-repeat: no-repeat;

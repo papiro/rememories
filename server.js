@@ -1,7 +1,7 @@
 'use strict'
 
 const
-  port = 5555
+  port = 80
 ,
   debug = require('util').debuglog('rememories'),
   prod = process.env.NODE_ENV === 'production',
@@ -24,7 +24,8 @@ app.set('view engine', 'pug')
 app.use(session({
   store: new RedisStore(),
   secret: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-  resave: false
+  resave: false,
+  saveUninitialized: false
 }))
 
 initpassport(app)
@@ -37,6 +38,11 @@ app.use( (req, res, done) => {
   req.isMobile = mobdet.mobile()
   debug(req.url)
   done()
+})
+
+app.use( (error, req, res) => {
+  console.error('WOOHOO')
+  throw error
 })
 
 app.listen(port)

@@ -7,12 +7,13 @@ const
   prod = process.env.NODE_ENV === 'production',
   MobileDetect = require('mobile-detect')
 ,
+  path = require('path'),
   express = require('express'),
   app = express()
 ,
   registerRoutes = require('./server/routes'),
   initpassport = require('./server/passport'),
-  initdb = require('./server/mysql')
+  initdb = require('./server/DB').init
 ,
   session = require('express-session'),
   RedisStore = require('connect-redis')(session)
@@ -30,7 +31,7 @@ app.use(session({
 }))
 
 initpassport(app)
-initdb(app)
+initdb()
 registerRoutes(app)
 
 app.use(express.static('public'))

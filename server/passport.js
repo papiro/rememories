@@ -20,12 +20,12 @@ module.exports = (app) => {
     clientSecret: 'OtScuriff7NobYr8c-ci2gvB',
     callbackURL: 'http://rememories.com/auth/google'
   }, (accessToken, refreshToken, profile, done) => {
-    debug(accessToken)
-    debug(profile)
-    (new User())
-      .then(() => {
-        debug('User found/added')
-        done()
+    const { id, displayName, emails } = profile;
+    (new User({ id, name: displayName, email: emails[0].value }))
+      .then( user => {
+        debug('calling passport auth callback with user')
+        debug(user)
+        done(null, user)
       })
       .catch( err => {
         done(err)
@@ -46,7 +46,7 @@ module.exports = (app) => {
       })
   })
   app.get('/sign-in/google', passport.authenticate('google', {
-    scope: ['profile']
+    scope: ['profile', 'email']
   }))
   app.get('/auth/google', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
     debug('Successful signin - redirecting to /dashboard')

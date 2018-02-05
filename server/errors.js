@@ -7,11 +7,11 @@ const methods = {
   }
 }
 
-const default = (err, res, next) => {
+const _default = (err, res, next) => {
   methods.simple(err, res, next)  
 }
 
 
-Object.assign(default, methods)
+Object.assign(_default, methods)
 
-module.exports = default
+module.exports = _default

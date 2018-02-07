@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import data from './data'
 
 /*
 {
@@ -13,41 +14,19 @@ import React from 'react'
 }
 */
 
-export default class Home extends React.Component {
-	constructor (props) {
-		super(props)
-    let data = {}
-    try {
-      data = JSON.parse(document.getElementById('data').dataset.vdata)
-    } catch (e) {
-      throw e
-    }
-    this.state = data
-	}
-	render ({ location }) {
-		console.log('Rendering Home with', match)
-		return (
-			<main>
-				<Greeting />
-        <DashboardTable />
-			</main>
-		)
-	}
-}
-
 class DashboardTable extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
   }
   render () {
-
+    return <table></table>
   }
 }
 
 class Greeting extends React.Component {
-	constructor	() {
+	constructor	(props) {
 		super(props)
-		this.state = data.name
+		this.state = { name: data.name }
 		this.onChange = this.onChange.bind(this)
 		this.onSubmit = this.onSubmit.bind(this)
 	}
@@ -85,4 +64,18 @@ class Greeting extends React.Component {
 	}
 }
 
+export default class Home extends React.Component {
+	constructor (props) {
+		super(props)
+	}
+	render () {
+		console.log('Rendering Home with', this.props.match.params.id)
+		return (
+			<main>
+				<Greeting />
+        <DashboardTable />
+			</main>
+		)
+	}
+}
 

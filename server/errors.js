@@ -3,6 +3,7 @@
 const methods = {
   simple (err) {
     console.trace(err)
+    console.error('Exiting process')
     process.exit(1)
   }
 }

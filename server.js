@@ -43,7 +43,7 @@ app.use( (req, res, done) => {
 })
 
 app.use( (error, req, res) => {
-  console.error('WOOHOO')
+  debug('WOOHOO')
   throw error
 })
 

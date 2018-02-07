@@ -5,7 +5,7 @@ const
 ;
 
 module.exports = ({ id, type, name, email, password }) => {
-  `INSERT INTO users (
+  return `INSERT INTO users (
     id,
     type,
     name,
@@ -13,11 +13,11 @@ module.exports = ({ id, type, name, email, password }) => {
     password,
     created
   ) VALUES(
-    wrapQuotes(id), 
-    wrapQuotes(type),
+    ${wrapQuotes(id)}, 
+    ${wrapQuotes(type)},
     ${name ? wrapQuotes(name) : "NULL"},
     ${email ? wrapQuotes(email) : "NULL"},
     ${password ? wrapQuotes(password) : "NULL"},
-    wrapQuotes(Date.now())
-  );`// ON DUPLICATE KEY UPDATE email="${email}", password="${password}";
+    ${wrapQuotes(Date.now())}
+  ) ON DUPLICATE KEY UPDATE email="${email}", name="${name}";`
 }

@@ -38,6 +38,7 @@ module.exports = (app) => {
   passport.deserializeUser( (id, done) => {
     User.getById(id)
       .then( user => {
+        delete user.password
         debug('Deserializing user:::', user)
         done(null, user)
       })

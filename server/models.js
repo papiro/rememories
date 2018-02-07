@@ -19,6 +19,7 @@ class User {
   static getById (id) {
     return DB.getUser({ id })
       .then( results => {
+        debug(results)
         return pojo(results[0])
       })
   }

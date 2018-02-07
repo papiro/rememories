@@ -12,13 +12,31 @@ import Signin from './components/Signin'
 import Home from './components/Home'
 //import Dashboard from './components/Dashboard'
 
+class ErrorBoundary extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  componentDidCatch (err, info) {
+    console.trace(err)
+    console.info(info.componentStack)
+    this.setState({ hasError: true })
+  }
+  render () {
+    if (this.state.hasError)
+      return <h1>Foo my bar, there was an error!</h1>
+    else
+      return this.props.children
+  }
+}
+
 class App extends React.Component {
   render () {
     return (
       <main>
         <Router>
           <Switch>
-            <Route path='/' component={Signin}/>
+            <Route exact path='/' component={Signin}/>
             <Route path='/home/:id' component={Home}/>
           {/*<Route path='/dashboard/:id' component={Dashboard}/>*/}
           </Switch>
@@ -30,6 +48,8 @@ class App extends React.Component {
 
 
 ReactDOM.render(
-  <App></App>,
+  <ErrorBoundary>
+    <App></App>
+  </ErrorBoundary>,
   document.getElementById('app')
 )

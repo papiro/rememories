@@ -3,20 +3,28 @@
 const
   debug = require('util').debuglog('rememories')
 ,
-  routes = require('./data/routes')
+  UserDashboard = require('./models').UserDashboard
 ;
 
-function getTokens (route, app) {
-  return {
-    prod: app.get('prod')
-  }
-}
-
 module.exports = (app) => {
-  app.get(routes.index.url, (req, res) => {
-    res.render(routes.index.tpl, Object.assign({ isMobile: req.isMobile }, getTokens(routes.index.url, app)))
+  const
+    isProd = app.get('prod')
+  ;
+
+  app.get('/home', (req, res, done) => {
+    debug('in /home')
+    debug(req.user)
+    //const { id, type, name, email } = req.user
+    const dashboards = Dashboard.getById(req.user.id)
+    dashboards.then(debug).catch(console.error)
+//    const tokens = {
+//      isProd,
+//      isMobile,
+//      data: req.user
+//    }
+//    res.render('index', tokens)
   })
-  app.get(routes.dashboard.url, (req, res) => {
-    res.render(routes.dashboard.tpl, getTokens(routes.dashboard.url, app))
+  app.get('/', (req, res) => {
+    res.render('index', { isProd, isMobile: req.isMobile })
   })
 }

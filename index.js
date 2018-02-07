@@ -2,30 +2,34 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom'
 
-class SigninWidget extends React.Component {
-  render () {
-    return (
-      <a href={'/sign-in/' + this.props.type} className={this.props.type + '-button'}></a>
-    )
-  }
-}
+import Signin from './components/Signin'
+import Home from './components/Home'
+//import Dashboard from './components/Dashboard'
 
-class Signin extends React.Component {
+class App extends React.Component {
   render () {
     return (
       <main>
-        <h2>Sign-in with</h2>
-        <div className='signin-widgets'>
-          <SigninWidget type='google'></SigninWidget>
-          <SigninWidget type='facebook'></SigninWidget>
-        </div>
+        <Router>
+          <Switch>
+            <Route path='/' component={Signin}/>
+            <Route path='/home/:id' component={Home}/>
+          {/*<Route path='/dashboard/:id' component={Dashboard}/>*/}
+          </Switch>
+        </Router>
       </main>
     )
   }
 }
 
+
 ReactDOM.render(
-  <Signin></Signin>,
+  <App></App>,
   document.getElementById('app')
 )

@@ -14,7 +14,7 @@ module.exports = (env) => {
   ;
 
   return {
-    entry: path.join(__dirname, 'index.js'),
+    entry: ['whatwg-fetch', path.join(__dirname, 'index.js')],
     output: {
       filename: 'dist.js',
       path: path.join(__dirname, 'public', 'js') 

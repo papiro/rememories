@@ -48,8 +48,9 @@ module.exports = (app) => {
   app.get('/sign-in/google', passport.authenticate('google', {
     scope: ['profile', 'email']
   }))
-  app.get('/auth/google', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
-    debug('Successful signin - redirecting to /dashboard')
-    res.redirect('/dashboard')
+  app.get('/auth/google', passport.authenticate('google', { failureRedirect: '/' }), (req, res, done) => {
+    debug('Successful signin - redirecting to /home')
+    res.redirect(`/home/${req.user.id}`)
+    done()
   })
 }

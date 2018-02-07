@@ -13,7 +13,7 @@ const
 ,
   registerRoutes = require('./server/routes'),
   initpassport = require('./server/passport'),
-  initdb = require('./server/DB').init
+  initdb = require('./server/sql/DB').init
 ,
   session = require('express-session'),
   RedisStore = require('connect-redis')(session)
@@ -21,7 +21,7 @@ const
 
 app.set('prod', prod)
 app.set('view engine', 'pug')
-app.set('views', path.resolve('./server/views'))
+app.set('views', path.resolve('views'))
 
 app.use(session({
   store: new RedisStore(),

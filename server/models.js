@@ -40,7 +40,13 @@ class Dashboard {
     await DB.startTransaction()
       const result1 = await DB.addDashboard({ type }) 
       debug('added dashboard')
-      const result2 = await (new UserDashboard({ user_id, dashboard_id: res.insertedId, perm: 0 }))
+      let result2
+      try {
+        result2 = await (new UserDashboard({ user_id, dashboard_id: result1.insertId, perm: 0 }))
+      } catch (e) {
+        DB.rollback()
+        return done(e)
+      }
       debug('added userdashboard')
     await DB.commit()
 

@@ -64,6 +64,7 @@ app.use( (err, req, res, done) => {
         res.redirect('/')
       break
     default:
+      debug(err)
       res.sendStatus(500)
   }
   done()

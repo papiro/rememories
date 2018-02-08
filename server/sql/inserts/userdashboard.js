@@ -14,8 +14,8 @@ module.exports = ({ user_id, dashboard_id, perm = -1/*no access*/ }) => {
     perm,
     deleted
   ) VALUES (
-    wrapQuotes(user_id),
-    wrapQuotes(dashboard_id),
+    ${wrapQuotes(user_id)},
+    ${wrapQuotes(dashboard_id)},
     ${ perm !== undefined ? wrapQuotes(perm) : "NULL"},
     NULL
   );`

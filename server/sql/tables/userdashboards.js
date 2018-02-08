@@ -10,7 +10,7 @@
 
 module.exports = 
 `CREATE TABLE IF NOT EXISTS userdashboards (
-  user_id MEDIUMINT UNSIGNED NOT NULL,
+  user_id VARCHAR(40) NOT NULL,
   dashboard_id MEDIUMINT UNSIGNED NOT NULL,
   perm TINYINT UNSIGNED,
   deleted TIMESTAMP,

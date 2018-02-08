@@ -53,20 +53,23 @@ class DB {
   static commit () {
     return query('COMMIT;')
   }
+  static rollback () {
+    return query('ROLLBACK;')
+  }
   static addUser (args = {}) {
     return query(insert.user(args))
   }
   static getUser ({ id, type, name, email, password }) {
     return query(select.user({ id }))
   }
-  static addDashboard ({ type }) {
-    return query(insert.dashboard({ type }))
+  static addDashboard (args = {}) {
+    return query(insert.dashboard(args))
   }
   static getDashboards (user_id) {
     return query(select.dashboards(user_id))
   }
-  static associateDashboard ({ userid, dashboardid, perm }) {
-    return query(insert.userdashboard({ type }))
+  static associateDashboard (args = {}) {
+    return query(insert.userdashboard(args))
   }
 }
 

@@ -13,6 +13,7 @@ exports.dashboard = {
     Dashboard.add({ type: 'rememories', user_id: req.user.id })
       .then( (...args) => {
         console.log(...args)
+        res.sendStatus(200)
         done()
       })
       .catch(done)

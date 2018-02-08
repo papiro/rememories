@@ -33,8 +33,8 @@ class DashboardTable extends React.Component {
           <tbody>
 	        {dashboards.length ? 
 	          dashboards.map( dashboard => 
-	            <DashboardRow props={dashboard} />
-	          )   
+	            <DashboardRow key={dashboard.id} dashboard={dashboard} />
+	          )
 	          :
 	          <tr><td colSpan="3">No dashboards created yet</td></tr>
 	        } 
@@ -57,14 +57,14 @@ class DashboardTable extends React.Component {
 class DashboardRow extends React.Component {
   constructor (props) {
     super(props)
-    console.log(props)
   }
   render () {
+    const { dashboard } = this.props
     return (
       <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{dashboard.name || dashboard.id}</td>
+        <td># of items</td>
+        <td>{dashboard.created}</td>
       </tr>
     )
   }
@@ -116,7 +116,7 @@ export default class Home extends React.Component {
 		super(props)
 	}
 	render () {
-		console.log('Rendering Home with', this.props.match.params.id)
+		console.log('Rendering Home of user', this.props.match.params.id)
 		return (
 			<main>
 				<Greeting />

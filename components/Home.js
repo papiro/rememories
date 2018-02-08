@@ -3,6 +3,8 @@
 import React from 'react'
 import data from './data'
 
+console.log(data)
+
 /*
 {
 	dashboards: <Array>{
@@ -17,9 +19,54 @@ import data from './data'
 class DashboardTable extends React.Component {
   constructor (props) {
     super(props)
+    this.state = { dashboards: data.dashboards }
+    this.addDashboard = this.addDashboard.bind(this)
   }
   render () {
-    return <table></table>
+    const { dashboards } = this.state
+    return (
+    	<main>	
+	      <table>
+          <thead><tr>
+            <th>Dashboard</th><th>Items</th><th>Created</th> 
+          </tr></thead>
+          <tbody>
+	        {dashboards.length ? 
+	          dashboards.map( dashboard => 
+	            <DashboardRow props={dashboard} />
+	          )   
+	          :
+	          <tr><td colSpan="3">No dashboards created yet</td></tr>
+	        } 
+          </tbody>
+	      </table>
+	      <button onClick={this.addDashboard} className="add-dashboard"></button>
+      </main>
+    )
+  }
+  addDashboard (evt) {
+    fetch('/dashboard', {
+      method: 'POST',
+      credentials: 'same-origin'
+    }).then( res => {
+      if (res.redirected) window.location = res.url
+    }).catch(console.error)
+  }
+}
+
+class DashboardRow extends React.Component {
+  constructor (props) {
+    super(props)
+    console.log(props)
+  }
+  render () {
+    return (
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    )
   }
 }
 

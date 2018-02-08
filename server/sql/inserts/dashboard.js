@@ -4,12 +4,14 @@ const
   wrapQuotes = require('../utils/wrapQuotes')
 ;
 
-module.exports = ({ type }) => {
+module.exports = ({ type, name }) => {
   return `INSERT INTO dashboards (
+    name,
     type,
     created
   ) VALUES (
-    wrapQuotes(type),
-    wrapQuotes(Date.now())
+    ${name ? wrapQuotes(name) : "NULL"},
+    ${wrapQuotes(type)},
+    ${wrapQuotes(Date.now())}
   );` 
 }

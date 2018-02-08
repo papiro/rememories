@@ -4,7 +4,7 @@ let data = {}
 try {
   data = JSON.parse(document.getElementById('data').dataset.vdata)
 } catch (e) {
-  throw e
+  data = {}
 }
 
 export default data

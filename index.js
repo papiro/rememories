@@ -33,15 +33,13 @@ class ErrorBoundary extends React.Component {
 class App extends React.Component {
   render () {
     return (
-      <main>
-        <Router>
-          <Switch>
-            <Route exact path='/' component={Signin}/>
-            <Route path='/home/:id' component={Home}/>
-          {/*<Route path='/dashboard/:id' component={Dashboard}/>*/}
-          </Switch>
-        </Router>
-      </main>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Signin}/>
+          <Route path='/home/:id' component={Home}/>
+        {/*<Route path='/dashboard/:id' component={Dashboard}/>*/}
+        </Switch>
+      </Router>
     )
   }
 }

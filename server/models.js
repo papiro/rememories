@@ -8,7 +8,11 @@ const
 ;
 
 function pojo (inst) {
-  return JSON.parse(JSON.stringify(inst))
+  try {
+    return JSON.parse(JSON.stringify(inst))
+  } catch(e) {
+    throw inst
+  }
 }
 
 class User {
@@ -19,21 +23,28 @@ class User {
   static getById (id) {
     return DB.getUser({ id })
       .then( results => {
-        debug(results)
+        if (!results.length) {
+          const err = new ReferenceError('No user with id found in cookie. Most likely the table got deleted in the meantime.')
+          err.code = 'NO_USER'
+          throw err
+        }
         return pojo(results[0])
       })
   }
 }
 
 class Dashboard {
-  constructor ({ type = 'gallery', user_id }) {
+  static async add ({ type = 'gallery', user_id }) {
     if (!user_id) return errors(new ReferenceError('Creation of new Dashboard needs user_id to associate with'))
-    return DB.addDashboard({ type }) 
-      .then( res => {
-        debug('added dashboard')
-        debug(res)
-        return new UserDashboard({ user_id, dashboard_id: res.insertedId, perm: 0 })
-      })
+
+    await DB.startTransaction()
+      const result1 = await DB.addDashboard({ type }) 
+      debug('added dashboard')
+      const result2 = await (new UserDashboard({ user_id, dashboard_id: res.insertedId, perm: 0 }))
+      debug('added userdashboard')
+    await DB.commit()
+
+    return [result1, result2]
   }
   static getById (user_id) {
     return DB.getDashboards(user_id)

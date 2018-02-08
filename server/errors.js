@@ -1,8 +1,9 @@
 'use strict'
 
+const inspect = require('util').inspect
 const methods = {
   simple (err) {
-    console.trace(err)
+    inspect(err)
     console.error('Exiting process')
     process.exit(1)
   }

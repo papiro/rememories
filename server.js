@@ -3,48 +3,70 @@
 const
   port = 80
 ,
-  debug = require('util').debuglog('rememories'),
-  prod = process.env.NODE_ENV === 'production',
-  MobileDetect = require('mobile-detect')
+  debug = require('util').debuglog('rememories')
 ,
   path = require('path'),
   express = require('express'),
   app = express()
 ,
-  registerRoutes = require('./server/routes'),
-  initpassport = require('./server/passport'),
-  initdb = require('./server/sql/DB').init
+  auth = require('./server/config/auth')
 ,
-  session = require('express-session'),
-  RedisStore = require('connect-redis')(session)
+  init = {
+    app: require('./server/config/app'),
+    auth: auth.init,
+    db: require('./server/sql/DB').init
+  }
+,
+  middleware = {
+    session: require('./server/config/session'),
+    mobileDetect: require('./server/config/mobile-detect'),
+    logger: require('./server/config/logger')
+  },
+  routes = {
+    get: {
+      home: require('./server/config/routes').home,
+      index: require('./server/config/routes').index
+    },
+    post: {
+      dashboard: require('./server/config/routes').dashboard.post
+    },
+    put: {
+      dashboard: require('./server/config/routes').dashboard.put
+    }
+  }
 ;
 
-app.set('prod', prod)
-app.set('view engine', 'pug')
-app.set('views', path.resolve('views'))
+init.app(app)
 
-app.use(session({
-  store: new RedisStore(),
-  secret: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-  resave: false,
-  saveUninitialized: false
-}))
+if (!app.get('isProd'))
+  app.use(express.static('public'))
 
-initpassport(app)
-initdb()
-registerRoutes(app)
+app.use(middleware.session)
 
-app.use(express.static('public'))
-app.use( (req, res, done) => {
-  const mobdet = new MobileDetect(req.headers['user-agent'])
-  req.isMobile = mobdet.mobile()
-  debug(req.url)
+app.get('/', routes.get.index)
+init.auth(app)
+
+init.db()
+
+app.use(middleware.mobileDetect) // dependency on session
+
+app.use(middleware.logger)
+
+app.get('/home/:id', routes.get.home)
+app.post('/dashboard', routes.post.dashboard)
+app.put('/dashboard', routes.put.dashboard)
+
+app.use( (err, req, res, done) => {
+  switch (err.code) {
+    case 'NO_USER':
+      debug('NO_USER')
+      if (!~['/', auth.urls.signin, auth.urls.landing].indexOf(req.url))
+        res.redirect('/')
+      break
+    default:
+      res.sendStatus(500)
+  }
   done()
-})
-
-app.use( (error, req, res) => {
-  debug('WOOHOO')
-  throw error
 })
 
 app.listen(port)

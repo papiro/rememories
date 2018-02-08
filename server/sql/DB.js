@@ -29,69 +29,44 @@ const
   }
 ;
 
+function query (query) {
+  return new Promise( (resolve, reject) => {
+    connection.query(query, (err, ...res) => {
+      if (err) return reject(err)
+      resolve(...res)
+    })
+  })
+}
+
 class DB {
   static init () {
-    // Create table 'users'
+    // Create tables
     connection.query(table.users)
-
-    // Create table 'dashboards'
     connection.query(table.dashboards)
-
-    // Create junction table 'userdashboards'
-    connection.query(table.userdashboards)
-
-    // Create 'files'
     connection.query(table.files)
+    // Create junction table
+    connection.query(table.userdashboards)
   }
-
+  static startTransaction () {
+    return query('START TRANSACTION;')
+  }
+  static commit () {
+    return query('COMMIT;')
+  }
   static addUser (args = {}) {
-    const { id, type, name, email } = args
-    const query = insert.user(args)
-    debug(query)
-    return new Promise( (resolve, reject) => {
-      connection.query(query, (err, ...results) => {
-        if (err) return reject(err)
-        resolve({ id, type, name, email }, ...results)
-      })
-    })
+    return query(insert.user(args))
   }
   static getUser ({ id, type, name, email, password }) {
-    if (id) {
-      const query = select.user({ id })
-      return new Promise( (resolve, reject) => {
-        connection.query(query, (err, ...res) => {
-          if (err) return reject(err)
-          resolve(...res)
-        })
-      })
-    }
+    return query(select.user({ id }))
   }
   static addDashboard ({ type }) {
-    const query = insert.dashboard({ type })
-    return new Promise( (resolve, reject) => {
-      connection.query(query, (err, ...res) => {
-        if (err) return reject(err)
-        resolve(...res)
-      })
-    })
+    return query(insert.dashboard({ type }))
   }
   static getDashboards (user_id) {
-    const query = select.dashboards(user_id)
-    return new Promise( (resolve, reject) => {
-      connection.query(query, (err, ...res) => {
-        if (err) return reject(err)
-        resolve(...res)
-      })
-    })
+    return query(select.dashboards(user_id))
   }
   static associateDashboard ({ userid, dashboardid, perm }) {
-    const query = insert.userdashboard({ type })
-    return new Promise( (resolve, reject) => {
-      connection.query(query, (err, ...res) => {
-        if (err) return reject(err)
-        resolve(...res)
-      })
-    })
+    return query(insert.userdashboard({ type }))
   }
 }
 

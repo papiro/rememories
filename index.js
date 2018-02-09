@@ -47,7 +47,7 @@ class App extends React.Component {
 
 ReactDOM.render(
   <ErrorBoundary>
-    <App></App>
+    <App />
   </ErrorBoundary>,
   document.getElementById('app')
 )

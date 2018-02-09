@@ -121,6 +121,9 @@ export default class Home extends React.Component {
 	}
 	render () {
 		console.log('Rendering Home of user', this.props.match.params.id)
+    setTimeout( () => {
+      alert('You will be logged out in approximately 1 minute')
+    }, 540000)
 		return (
 			<main>
 				<Greeting />

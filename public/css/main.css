@@ -1,9 +1,0 @@
-.google-button {
-	background-image: url('/img/icons/google_button_normal.svg');	
-}
-.google-button:focus {
-	background-image: url('/img/icons/google_button_focus.svg');	
-}
-.google-button:active {
-	background-image: url('/img/icons/google_button_pressed.svg');	
-}

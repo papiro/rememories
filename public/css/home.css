@@ -1,33 +1,33 @@
-main {
-  height: 50vh;
-  width: 100vw;
+.greeting {
+  color: #818479;
+}
+.dashboard-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
+  align-items:  center;
+  width: 80%;
 }
-h2 {
+.dashboard-table {
+  flex-basis: 100%; 
+  width: 100%;
   text-align: center;
-  font-size: 3rem;
 }
-.signin-widgets {
-  display: flex;
+.dashboard-table th {
+  color: #818479;
+  border-bottom: 0.5em solid #e4e9b2;
+  padding: 0.3em;
 }
-.signin-widgets a {
-  height: 10em;
-  width: 10em;
+.dashboard-table td {
+  padding: 1em;
+  background-color: #818479;
+  color: #e4e9b2;
+}
+.add-dashboard {
+  background-image: url("/img/icons/zondicons/add-solid.svg");
   background-repeat: no-repeat;
-  background-size: contain;
-}
-.google-button {
-  background-image: url('/img/icons/google_button_normal.svg');
-}
-.google-button:focus {
-  background-image: url('/img/icons/google_button_focus.svg');
-}
-.google-button:active {
-  background-image: url('/img/icons/google_button_pressed.svg');
-}
-.facebook-button {
-  background-image: url('/img/icons/facebook.svg');
+  background-position: center center;
+  height: 5em;
+  width: 5em;
+  border-radius: 50%;
+  background-color: #007c59;
 }

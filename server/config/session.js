@@ -3,6 +3,8 @@
 const
   session = require('express-session'),
   RedisStore = require('connect-redis')(session)
+,
+  isProd = require('./isProd')
 ;
 
 module.exports = session({
@@ -13,6 +15,6 @@ module.exports = session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 10000
+    maxAge: isProd ? 600000 : null
   }
 })

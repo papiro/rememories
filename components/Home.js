@@ -25,7 +25,7 @@ class DashboardTable extends React.Component {
   render () {
     const { dashboards } = this.state
     return (
-    	<main className="home-main">
+    	<section className="dashboard-section">
 	      <table className="dashboard-table">
           <thead><tr>
             <th>Dashboard</th><th>Files</th><th>Created</th> 
@@ -41,7 +41,7 @@ class DashboardTable extends React.Component {
           </tbody>
 	      </table>
 	      <button onClick={this.addDashboard} className="add-dashboard"></button>
-      </main>
+      </section>
     )
   }
   addDashboard (evt) {
@@ -65,9 +65,12 @@ class DashboardRow extends React.Component {
       <tr>
         <td>{dashboard.name || dashboard.id}</td>
         <td>{dashboard.files}</td>
-        <td>{dashboard.created}</td>
+        <td>{this.dateFormat(dashboard.created)}</td>
       </tr>
     )
+  }
+  dateFormat (str) {
+    return (new Date(str)).toLocaleString()
   }
 }
 

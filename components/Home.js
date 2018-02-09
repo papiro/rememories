@@ -25,10 +25,10 @@ class DashboardTable extends React.Component {
   render () {
     const { dashboards } = this.state
     return (
-    	<main>	
-	      <table>
+    	<main className="home-main">
+	      <table className="dashboard-table">
           <thead><tr>
-            <th>Dashboard</th><th>Items</th><th>Created</th> 
+            <th>Dashboard</th><th>Files</th><th>Created</th> 
           </tr></thead>
           <tbody>
 	        {dashboards.length ? 
@@ -49,7 +49,8 @@ class DashboardTable extends React.Component {
       method: 'POST',
       credentials: 'same-origin'
     }).then( res => {
-      if (res.redirected) window.location = res.url
+      if (res.redirected) return window.location = res.url
+      window.location.reload()
     }).catch(console.error)
   }
 }
@@ -63,7 +64,7 @@ class DashboardRow extends React.Component {
     return (
       <tr>
         <td>{dashboard.name || dashboard.id}</td>
-        <td># of items</td>
+        <td>{dashboard.files}</td>
         <td>{dashboard.created}</td>
       </tr>
     )
@@ -79,7 +80,7 @@ class Greeting extends React.Component {
 	}
 	render () {
 		if (this.state.name) 
-			return <h2>Hi {this.state.name}!</h2>
+			return <h2 className="greeting">Hi {this.state.name}!</h2>
 		else {
 			return (
 				<form onSubmit={this.onSubmit}>

@@ -7,11 +7,9 @@ const
 module.exports = ({ type, name }) => {
   return `INSERT INTO dashboards (
     name,
-    type,
-    created
+    type
   ) VALUES (
     ${name ? wrapQuotes(name) : "NULL"},
-    ${wrapQuotes(type)},
-    ${wrapQuotes(Date.now())}
+    ${wrapQuotes(type)}
   );` 
 }

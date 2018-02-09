@@ -6,10 +6,12 @@ const
 ;
 
 module.exports = session({
-  store: new RedisStore(),
+  store: new RedisStore({
+    logErrors: true 
+  }),
   secret: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
     maxAge: 10000
   }

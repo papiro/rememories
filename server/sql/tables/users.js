@@ -6,6 +6,6 @@ module.exports = `CREATE TABLE IF NOT EXISTS users (
   name VARCHAR(30),
   email VARCHAR(40),
   password CHAR(129),
-  created TIMESTAMP NOT NULL,
+  created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY(id)
 )`

@@ -25,6 +25,7 @@ exports.dashboard = {
 
 exports.home = (req, res, done) => {
   if (!req.user) {
+    debug('user not found, redirecting to /')
     res.redirect('/')
     return done()
   }

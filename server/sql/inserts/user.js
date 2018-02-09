@@ -10,14 +10,12 @@ module.exports = ({ id, type, name, email, password }) => {
     type,
     name,
     email,
-    password,
-    created
+    password
   ) VALUES(
     ${wrapQuotes(id)}, 
     ${wrapQuotes(type)},
     ${name ? wrapQuotes(name) : "NULL"},
     ${email ? wrapQuotes(email) : "NULL"},
-    ${password ? wrapQuotes(password) : "NULL"},
-    ${wrapQuotes(Date.now())}
+    ${password ? wrapQuotes(password) : "NULL"}
   ) ON DUPLICATE KEY UPDATE email="${email}", name="${name}";`
 }

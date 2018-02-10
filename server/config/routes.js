@@ -18,6 +18,16 @@ exports.dashboard = {
       })
       .catch(done)
   },
+  delete (req, res, done) {
+    // send user_id for verification
+    Dashboard.delete({ dashboard_id: req.params.id, user_id: req.user.id })
+      .then( () => {
+        debug('Deleted dashboard')
+        res.sendStatus(200)
+        done()
+      })
+      .catch(done)
+  },
   put (req, res, done) {
 
   }
@@ -25,14 +35,14 @@ exports.dashboard = {
 
 exports.home = (req, res, done) => {
   if (!req.user) {
-    debug('user not found, redirecting to /')
-    res.redirect('/')
-    return done()
+    const err = new Error('User doesn\'t have session.')
+    err.code = 'NO_USER'
+    return done(err)
   }
   if (req.user.id !== req.params.id) {
-    debug(`user id ${req.user.id} doesn't match home id ${req.params.id}`)  
-    res.sendStatus(403)
-    done()
+    const err = new Error(`User id ${req.user.id} doesn't match home id ${req.params.id}`)  
+    err.code = 'NON_MATCHING_RESOURCE'
+    return done(err)
   }
   Dashboard.getById(req.user.id).then( dashboards => {
     debug(`dashboards gotten using id ${req.user.id}:::`)

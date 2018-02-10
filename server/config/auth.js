@@ -63,6 +63,7 @@ exports.init = (app) => {
         done(null, user)
       })
       .catch( err => {
+        // user needs to be created
         if (err.code === 'NO_USER')
           done(null, null)
         else

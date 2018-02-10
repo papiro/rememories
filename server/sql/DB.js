@@ -19,13 +19,18 @@ const
 ,
   select = {
     user: require('./selects/user'),
-    dashboards: require('./selects/dashboards')
+    dashboards: require('./selects/dashboards'),
+    userdashboards: require('./selects/userdashboards')
   }
 ,
   insert = {
     user: require('./inserts/user'),
     dashboard: require('./inserts/dashboard'),
     userdashboard: require('./inserts/userdashboard')
+  }
+,
+  remove = {
+    dashboard: require('./deletes/dashboard')
   }
 ;
 
@@ -70,6 +75,12 @@ class DB {
   }
   static associateDashboard (args = {}) {
     return query(insert.userdashboard(args))
+  }
+  static isUserDashboard (args = {}) {
+    return query(select.userdashboards(args))
+  }
+  static deleteDashboard (id) {
+    return query(remove.dashboard(id))
   }
 }
 

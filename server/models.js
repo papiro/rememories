@@ -42,10 +42,10 @@ class Dashboard {
       debug('added dashboard')
       let result2
       try {
-        result2 = await (new UserDashboard({ user_id, dashboard_id: result1.insertId, perm: 0 }))
+        result2 = await (new UserDashboard({ user_id, dashboard_id: result1.insertId, perm: 3 }))
       } catch (e) {
         DB.rollback()
-        return done(e)
+        throw e
       }
       debug('added userdashboard')
     await DB.commit()
@@ -54,6 +54,25 @@ class Dashboard {
   }
   static getById (user_id) {
     return DB.getDashboards(user_id)
+  }
+  static delete ({ dashboard_id, user_id }) {
+    return DB.isUserDashboard({ dashboard_id, user_id })
+      .then( res => {
+        if (!res.length) {
+          const err = new ReferenceError('Dashboard being deleted by user is not related to user')
+          err.code = 'USER_DASHBOARD_MIXUP'
+          throw err
+        }
+        debug('Validated that dashboard is related to user')
+        if (res[0].perm < 3) {
+          const err = new TypeError('User is not owner so cannot delete dashboard')
+          err.code = 'UNAUTHORIZED_DASHBOARD_DELETE'
+          throw err
+        }
+        debug('User is owner so authorized for delete')
+
+        return DB.deleteDashboard(dashboard_id)
+      })
   }
 }
 

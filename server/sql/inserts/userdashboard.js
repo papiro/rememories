@@ -4,10 +4,12 @@ const
   wrapQuotes = require('../utils/wrapQuotes')
 ,
   errors = require('../../errors')
+,
+  debug = require('util').debuglog('rememories')
 ;
 
-module.exports = ({ user_id, dashboard_id, perm = -1/*no access*/ }) => {
-  if (perm === -1) debug('Warning:::no perm provided so using -1 (no access) on new user-dashboard association')
+module.exports = ({ user_id, dashboard_id, perm }) => {
+  if (perm === undefined) debug('Warning:::no perm provided so using default (no) access on new user-dashboard association')
   return `INSERT INTO userdashboards (
     user_id,
     dashboard_id,
@@ -15,6 +17,6 @@ module.exports = ({ user_id, dashboard_id, perm = -1/*no access*/ }) => {
   ) VALUES (
     ${wrapQuotes(user_id)},
     ${wrapQuotes(dashboard_id)},
-    ${ perm !== undefined ? wrapQuotes(perm) : "NULL"}
+    ${ perm ? wrapQuotes(perm) : 0 }
   );`
 }

@@ -21,6 +21,7 @@
   padding: 1em;
   background-color: #818479;
   color: #e7e08b;
+  vertical-align: middle;
 }
 .add-dashboard {
   background-image: url("/img/icons/zondicons/add-solid.svg");

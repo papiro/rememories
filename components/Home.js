@@ -51,7 +51,7 @@ class DashboardTable extends React.Component {
       credentials: 'same-origin'
     }).then( res => {
       if (res.redirected) return window.location = res.url
-      window.location.reload()
+      //window.location.reload()
     }).catch(console.error)
   }
 }
@@ -111,14 +111,16 @@ class DeleteDashboardButton extends React.Component {
     } else this.deleteDashboard()
   }
   deleteDashboard (evt) {
-    fetch('/dashboard', {
+    fetch(`/dashboard/${this.props.dashboard.id}`, {
       method: 'DELETE',
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        id: this.props.dashboard.id
-      })
+      credentials: 'same-origin'
     }).then( res => {
-      console.log(res) 
+      switch (res.status) {
+        case 200:
+          //window.location.reload()
+        default:
+          console.log(res) 
+      }
     }).catch( err => {
       console.error(err)
     })

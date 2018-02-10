@@ -28,7 +28,8 @@ const
   routes = {
     get: {
       home: require('./server/config/routes').home,
-      index: require('./server/config/routes').index
+      index: require('./server/config/routes').index,
+      dashboard: require('./server/config/routes').dashboard.get
     },
     post: {
       dashboard: require('./server/config/routes').dashboard.post
@@ -75,6 +76,7 @@ app.use( (req, res, done) => {
 app.use(middleware.logger)
 
 app.get('/home/:id', routes.get.home)
+app.get('/dashboard/:id', routes.get.dashboard)
 app.post('/dashboard', routes.post.dashboard)
 app.put('/dashboard', routes.put.dashboard)
 app.delete('/dashboard/:id', routes.delete.dashboard)
@@ -92,6 +94,7 @@ app.use( (err, req, res, done) => {
     case 'NON_MATCHING_RESOURCE':
     case 'USER_DASHBOARD_MIXUP':
     case 'UNAUTHORIZED_DASHBOARD_DELETE':
+    case 'UNAUTHORIZED_DASHBOARD_VIEW':
       res.sendStatus(403)
       break
     default:

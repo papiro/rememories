@@ -20,7 +20,8 @@ const
   select = {
     user: require('./selects/user'),
     dashboards: require('./selects/dashboards'),
-    userdashboards: require('./selects/userdashboards')
+    userdashboards: require('./selects/userdashboards'),
+    files: require('./selects/files')
   }
 ,
   insert = {
@@ -76,11 +77,14 @@ class DB {
   static associateDashboard (args = {}) {
     return query(insert.userdashboard(args))
   }
-  static isUserDashboard (args = {}) {
+  static getUserDashboard (args = {}) {
     return query(select.userdashboards(args))
   }
   static deleteDashboard (id) {
     return query(remove.dashboard(id))
+  }
+  static getFilesForDashboard (dashboard_id) {
+    return query(select.files(dashboard_id))
   }
 }
 

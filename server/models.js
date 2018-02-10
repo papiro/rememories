@@ -56,7 +56,7 @@ class Dashboard {
     return DB.getDashboards(user_id)
   }
   static delete ({ dashboard_id, user_id }) {
-    return DB.isUserDashboard({ dashboard_id, user_id })
+    return DB.getUserDashboard({ dashboard_id, user_id })
       .then( res => {
         if (!res.length) {
           const err = new ReferenceError('Dashboard being deleted by user is not related to user')
@@ -74,6 +74,18 @@ class Dashboard {
         return DB.deleteDashboard(dashboard_id)
       })
   }
+  static getPermForUser(args = {}) {
+    return DB.getUserDashboard(args)
+      .then( result => {
+        return result[0].perm
+      })
+  }
+}
+
+class Files {
+  static getByDashboardId (dashboard_id) {
+    return DB.getFilesForDashboard(dashboard_id)
+  }
 }
 
 // Private; junction table
@@ -86,4 +98,4 @@ class UserDashboard {
 
 exports.User = User
 exports.Dashboard = Dashboard
-//exports.UserDashboard = UserDashboard
+exports.Files = Files

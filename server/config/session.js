@@ -15,6 +15,6 @@ module.exports = session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: isProd ? 600000 : null
+    maxAge: 600000
   }
 })

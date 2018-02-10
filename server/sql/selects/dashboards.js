@@ -6,6 +6,9 @@ module.exports = (user_id) => {
     d.name,
     d.type, 
     d.created,
+    ud.invited_by,
+    ud.perm,
+    ud.deleted,
     (
       SELECT
       COUNT(f.id) FROM files f
@@ -15,5 +18,6 @@ module.exports = (user_id) => {
   JOIN userdashboards ud
   ON ud.user_id = ${user_id}
     AND ud.dashboard_id = d.id
+  WHERE ud.perm != -1
   GROUP BY d.id;`
 }

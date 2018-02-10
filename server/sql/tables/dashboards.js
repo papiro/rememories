@@ -6,5 +6,6 @@ module.exports =
   name VARCHAR(40),
   type VARCHAR(20) NOT NULL,
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  file_count TINYINT NOT NULL,
   PRIMARY KEY(id)
 )`

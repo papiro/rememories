@@ -11,12 +11,10 @@ module.exports = ({ user_id, dashboard_id, perm = -1/*no access*/ }) => {
   return `INSERT INTO userdashboards (
     user_id,
     dashboard_id,
-    perm,
-    deleted
+    perm
   ) VALUES (
     ${wrapQuotes(user_id)},
     ${wrapQuotes(dashboard_id)},
-    ${ perm !== undefined ? wrapQuotes(perm) : "NULL"},
-    NULL
+    ${ perm !== undefined ? wrapQuotes(perm) : "NULL"}
   );`
 }

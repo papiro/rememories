@@ -2,6 +2,7 @@
 
 import React from 'react'
 import data from './data'
+import Modal from './Modal'
 
 console.log(data)
 
@@ -28,7 +29,7 @@ class DashboardTable extends React.Component {
     	<section className="dashboard-section">
 	      <table className="dashboard-table">
           <thead><tr>
-            <th>Dashboard</th><th>Files</th><th>Created</th> 
+            <th>Dashboard</th><th>Files</th><th>Created</th><th>Actions</th>
           </tr></thead>
           <tbody>
 	        {dashboards.length ? 
@@ -36,7 +37,7 @@ class DashboardTable extends React.Component {
 	            <DashboardRow key={dashboard.id} dashboard={dashboard} />
 	          )
 	          :
-	          <tr><td colSpan="3">No dashboards created yet</td></tr>
+	          <tr><td colSpan="4">No dashboards created yet</td></tr>
 	        } 
           </tbody>
 	      </table>
@@ -66,11 +67,61 @@ class DashboardRow extends React.Component {
         <td>{dashboard.name || dashboard.id}</td>
         <td>{dashboard.files}</td>
         <td>{this.dateFormat(dashboard.created)}</td>
+        <td><DeleteDashboardButton dashboard={dashboard}/></td>
       </tr>
     )
   }
   dateFormat (str) {
     return (new Date(str)).toLocaleString()
+  }
+}
+
+class DeleteDashboardButton extends React.Component {
+  constructor (props) {
+    super(props)
+    this.deleteDashboard = this.deleteDashboard.bind(this)
+    this.closeConfirm = this.closeConfirm.bind(this)
+    this.verifyDelete = this.verifyDelete.bind(this)
+    this.state = {
+      showConfirm: false
+    }
+  }
+  render () {
+    this.setState
+    return (
+      <button onClick={this.verifyDelete} className="delete-dashboard">
+      { this.state.showConfirm  &&
+        <Modal onClose={this.closeConfirm}>
+          <h1>Are you sure?</h1> 
+          <p><strong>All files in this dashboard will be deleted from the server.</strong></p>
+          <button onClick={this.deleteDashboard}>Yes</button><button onClick={this.closeConfirm}>No</button>
+        </Modal>
+      }
+      </button>
+    )
+  }
+  closeConfirm () {
+    this.setState({ showConfirm: false })
+  }
+  verifyDelete () {
+    if (this.props.dashboard.files.length) {
+      this.setState({
+        showConfirm: Boolean(props.dashboard.files.length)
+      })
+    } else this.deleteDashboard()
+  }
+  deleteDashboard (evt) {
+    fetch('/dashboard', {
+      method: 'DELETE',
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        id: this.props.dashboard.id
+      })
+    }).then( res => {
+      console.log(res) 
+    }).catch( err => {
+      console.error(err)
+    })
   }
 }
 

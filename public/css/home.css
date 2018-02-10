@@ -20,7 +20,7 @@
 .dashboard-table td {
   padding: 1em;
   background-color: #818479;
-  color: #e4e9b2;
+  color: #e7e08b;
 }
 .add-dashboard {
   background-image: url("/img/icons/zondicons/add-solid.svg");
@@ -29,5 +29,17 @@
   height: 5em;
   width: 5em;
   border-radius: 50%;
-  background-color: #007c59;
+  background-color: #e4e9b2;
+}
+.delete-dashboard {
+  background-image: url("/img/icons/zondicons/trash.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 70%;
+  height: 2.3em;
+  width: 2.3em;
+  background-color: #e4e9b2;
+  border-radius: 50%;
+  box-shadow: 0 0 0.2em 0.2em #938f59;
+  padding: 0.3em;
 }

@@ -1,20 +1,17 @@
 'use strict'
 
-import React from 'react'
+import { Component } from 'react'
 import Modal from './Modal'
 
-export default class DeleteDashboardButton extends React.Component {
+export default class DeleteDashboardButton extends Component {
   constructor (props) {
     super(props)
     this.deleteDashboard = this.deleteDashboard.bind(this)
     this.closeConfirm = this.closeConfirm.bind(this)
     this.verifyDelete = this.verifyDelete.bind(this)
-    this.state = {
-      showConfirm: false
-    }
+    this.state = { showConfirm: false }
   }
   render () {
-    this.setState
     return (
       <button onClick={this.verifyDelete} className="delete-dashboard">
       { this.state.showConfirm  &&
@@ -49,8 +46,6 @@ export default class DeleteDashboardButton extends React.Component {
         default:
           console.log(res) 
       }
-    }).catch( err => {
-      console.error(err)
-    })
+    }).catch(console.error)
   }
 }

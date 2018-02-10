@@ -1,8 +1,9 @@
 'use strict'
 
-import React from 'react'
+import { Component } from 'react'
+import data from './data'
 
-export default class Greeting extends React.Component {
+export default class Greeting extends Component {
 	constructor	(props) {
 		super(props)
 		this.state = { name: data.name }
@@ -29,17 +30,12 @@ export default class Greeting extends React.Component {
 	onSubmit ({ target }) {
     fetch(`/api/userInfo/${data.id}`, {
       method: 'POST',
-      body: JSON.stringify({
-        name: this.state.name
-      }),
-      headers: {
-        'Content-Type': 'application/json'
+      body: JSON.stringify({ name: this.state.name }),
+      headers: { 
+        'Content-Type': 'application/json',
+        credentials: 'same-origin'
       }
-    }).then( res => {
-      console.log(res)
-    }).catch( err => {
-      console.error(err)
-    })
+    }).then(console.log).catch(console.error)
 	}
 }
 

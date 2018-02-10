@@ -77,6 +77,7 @@ class Dashboard {
   static getPermForUser(args = {}) {
     return DB.getUserDashboard(args)
       .then( result => {
+        console.log(result)
         return result[0].perm
       })
   }

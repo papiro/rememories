@@ -1,9 +1,9 @@
 'use strict'
 
-import React from 'react'
+import { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-export default class Modal extends React.Component {
+export default class Modal extends Component {
   constructor (props) {
     super(props)
     this.modal = (

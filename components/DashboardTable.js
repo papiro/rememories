@@ -1,9 +1,10 @@
 'use strict'
 
-import React from 'react'
+import { Component } from 'react'
+import DashboardRow from './DashboardRow'
 import data from './data'
 
-export default class DashboardTable extends React.Component {
+export default class DashboardTable extends Component {
   constructor (props) {
     super(props)
     this.state = { dashboards: data.dashboards }
@@ -15,16 +16,13 @@ export default class DashboardTable extends React.Component {
     return (
     	<section className="dashboard-section">
 	      <table className="dashboard-table">
-          <thead><tr>
-            <th>Dashboard</th><th>Files</th><th>Created</th><th>Actions</th>
-          </tr></thead>
+          <thead><tr><th>Dashboard</th><th>Files</th><th>Created</th><th>Actions</th></tr></thead>
           <tbody>
 	        {dashboards.length ? 
 	          dashboards.map( dashboard => 
 	            <DashboardRow key={dashboard.id} dashboard={dashboard} onDelete={this.deleteRowFromState} />
 	          )
-	          :
-	          <tr><td colSpan="4">No dashboards created yet</td></tr>
+	          : <tr><td colSpan="4">No dashboards created yet</td></tr>
 	        } 
           </tbody>
 	      </table>

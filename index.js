@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react'
+import { Component } from 'react'
 import ReactDOM from 'react-dom'
 import {
   BrowserRouter as Router,
@@ -12,7 +12,7 @@ import Signin from './components/Signin'
 import Home from './components/Home'
 import Dashboard from './components/Dashboard'
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor (props) {
     super(props)
     this.state = { hasError: false }
@@ -30,19 +30,15 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-class App extends React.Component {
-  render () {
-    return (
-      <Router>
-        <Switch>
-          <Route exact path='/' component={Signin}/>
-          <Route path='/home/:id' component={Home}/>
-          <Route path='/dashboard/:id' component={Dashboard}/>
-        </Switch>
-      </Router>
-    )
-  }
-}
+const App = (
+  <Router>
+    <Switch>
+      <Route exact path='/' component={Signin}/>
+      <Route path='/home/:id' component={Home}/>
+      <Route path='/dashboard/:id' component={Dashboard}/>
+    </Switch>
+  </Router>
+)
 
 
 ReactDOM.render(

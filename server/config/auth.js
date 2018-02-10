@@ -21,9 +21,6 @@ const
 exports.urls = urls
 
 exports.init = (app) => {
-  app.use(passport.initialize())
-  app.use(passport.session())
-
   app.get(urls.signin, passport.authenticate('google', {
     scope: ['profile', 'email']
   }))

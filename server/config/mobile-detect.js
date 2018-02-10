@@ -2,10 +2,12 @@
 
 const
   MobileDetect = require('mobile-detect')
+,
+  debug = require('util').debuglog('rememories')
 ;
 
 function detectMobile (req) {
-  return (new MobileDetect(req.headers['user-agent'])).mobile() // Is the user on a mobile device?
+  return Boolean((new MobileDetect(req.headers['user-agent'])).mobile()) // Is the user on a mobile device?
 }
 
 module.exports = (req, res, done) => {
@@ -19,5 +21,6 @@ module.exports = (req, res, done) => {
     mobdet = detectMobile(req)
 
   req.isMobile = mobdet
+  debug('isMobile:::', mobdet) 
   done()
 }

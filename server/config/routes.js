@@ -11,10 +11,13 @@ const
 exports.dashboard = {
   post (req, res, done) {
     Dashboard.add({ type: 'rememories', user_id: req.user.id })
-      .then( (...args) => {
-        console.log(...args)
-        res.sendStatus(200)
-        done()
+      .then( () => {
+        Dashboard.getById(req.user.id).then( dashboards => {
+          res.json({ dashboards })
+          done()
+        }).catch( err => {
+          done(err)
+        })
       })
       .catch(done)
   },
@@ -47,11 +50,7 @@ exports.home = (req, res, done) => {
   Dashboard.getById(req.user.id).then( dashboards => {
     debug(`dashboards gotten using id ${req.user.id}:::`)
     debug(dashboards)
-    res.locals = {
-      isProd,
-      isMobile: req.isMobile,
-      data: Object.assign(req.user, { dashboards })
-    }
+    Object.assign(res.locals.data, { dashboards })
     res.render('index')
     done()
   }).catch( err => {

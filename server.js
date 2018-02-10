@@ -9,6 +9,7 @@ const
   express = require('express'),
   app = express()
 ,
+  passport = require('passport'),
   auth = require('./server/config/auth')
 ,
   init = {
@@ -21,7 +22,8 @@ const
     session: require('./server/config/session'),
     mobileDetect: require('./server/config/mobile-detect'),
     logger: require('./server/config/logger'),
-    bodyparser: require('body-parser').json()
+    bodyparser: require('body-parser').json(),
+    resLocals: require('./server/config/resLocals')
   },
   routes = {
     get: {
@@ -49,8 +51,13 @@ init.app(app)
 if (!app.get('isProd'))
   app.use(express.static('public'))
 
-app.use(middleware.bodyparser)
 app.use(middleware.session)
+app.use(middleware.bodyparser)
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(middleware.mobileDetect) // dependency on session
+app.use(middleware.resLocals)
 
 app.get('/', routes.get.index)
 
@@ -64,8 +71,6 @@ app.use( (req, res, done) => {
     done(err)
   } else done()
 })
-
-app.use(middleware.mobileDetect) // dependency on session
 
 app.use(middleware.logger)
 

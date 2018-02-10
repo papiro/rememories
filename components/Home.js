@@ -22,6 +22,7 @@ class DashboardTable extends React.Component {
     super(props)
     this.state = { dashboards: data.dashboards }
     this.addDashboard = this.addDashboard.bind(this)
+    this.deleteRowFromState = this.deleteRowFromState.bind(this)
   }
   render () {
     const { dashboards } = this.state
@@ -34,7 +35,7 @@ class DashboardTable extends React.Component {
           <tbody>
 	        {dashboards.length ? 
 	          dashboards.map( dashboard => 
-	            <DashboardRow key={dashboard.id} dashboard={dashboard} />
+	            <DashboardRow key={dashboard.id} dashboard={dashboard} onDelete={this.deleteRowFromState} />
 	          )
 	          :
 	          <tr><td colSpan="4">No dashboards created yet</td></tr>
@@ -45,13 +46,16 @@ class DashboardTable extends React.Component {
       </section>
     )
   }
+  deleteRowFromState (dashboard_id) {
+    this.setState({ dashboards: this.state.dashboards.filter( dashboard => dashboard.id !== dashboard_id )})
+  }
   addDashboard (evt) {
     fetch('/dashboard', {
       method: 'POST',
       credentials: 'same-origin'
     }).then( res => {
       if (res.redirected) return window.location = res.url
-      //window.location.reload()
+      res.json().then( data => { this.setState({ dashboards: data.dashboards }) })
     }).catch(console.error)
   }
 }
@@ -67,7 +71,7 @@ class DashboardRow extends React.Component {
         <td>{dashboard.name || dashboard.id}</td>
         <td>{dashboard.files}</td>
         <td>{this.dateFormat(dashboard.created)}</td>
-        <td><DeleteDashboardButton dashboard={dashboard}/></td>
+        <td><DeleteDashboardButton onDelete={this.props.onDelete} dashboard={dashboard}/></td>
       </tr>
     )
   }
@@ -111,13 +115,14 @@ class DeleteDashboardButton extends React.Component {
     } else this.deleteDashboard()
   }
   deleteDashboard (evt) {
-    fetch(`/dashboard/${this.props.dashboard.id}`, {
+    const id = this.props.dashboard.id
+    fetch(`/dashboard/${id}`, {
       method: 'DELETE',
       credentials: 'same-origin'
     }).then( res => {
       switch (res.status) {
         case 200:
-          //window.location.reload()
+          this.props.onDelete(id)
         default:
           console.log(res) 
       }

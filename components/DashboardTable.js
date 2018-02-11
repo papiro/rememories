@@ -1,10 +1,10 @@
 'use strict'
 
-import { Component } from 'react'
+import React from 'react'
 import DashboardRow from './DashboardRow'
 import data from './data'
 
-export default class DashboardTable extends Component {
+export default class DashboardTable extends React.Component {
   constructor (props) {
     super(props)
     this.state = { dashboards: data.dashboards }

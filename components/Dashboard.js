@@ -1,31 +1,33 @@
 'use strict'
 
-import { Component } from 'react'
+import React from 'react'
 import data from './data'
 
 console.log(data)
 
-export default class Dashboard extends Component {
+export default class Dashboard extends React.Component {
   constructor (props) {
     super(props)
   }
   render () {
-    <main>
-      <ul className="actions-panel">
-        <li><a className="icon--home" href="/home/{data.user_id}"></a></li>
-        <li><button className="icon--invite-user"></button></li>
-        <li><button className="icon--remove-user"></button></li>
-        <li><button className="icon--upload"></button></li>
-        <li><button className="icon--filter"></button></li>
-        <li><button className="icon--favorites"></button></li>
-        <li><button className="icon--logout"></button></li>
-      </ul>
-      <FilesTable />
-    </main>
+    return (
+      <main>
+        <ul className="actions-panel">
+          <li><a className="icon--home" href="/home/{data.user_id}"></a></li>
+          <li><button className="icon--invite-user"></button></li>
+          <li><button className="icon--remove-user"></button></li>
+          <li><button className="icon--upload"></button></li>
+          <li><button className="icon--filter"></button></li>
+          <li><button className="icon--favorites"></button></li>
+          <li><button className="icon--logout"></button></li>
+        </ul>
+        <FilesTable />
+      </main>
+    )
   }
 }
 
-class FilesTable extends Component {
+class FilesTable extends React.Component {
   constructor (props) {
     super(props)
     this.state = { files: data.files }
@@ -41,7 +43,7 @@ class FilesTable extends Component {
               <FileRow file={file} />              
             ))
           :
-            <tr><td colspan="5">No files added yet.</td></tr>
+            <tr><td colSpan="5">No files added yet.</td></tr>
           }
         </tbody>
       </table>
@@ -49,7 +51,7 @@ class FilesTable extends Component {
   }
 }
 
-class FilesTableHeader extends Component {
+class FilesTableHeader extends React.Component {
   constructor (props) {
     super(props)
     this.sortBy = this.sortBy.bind(this)
@@ -95,7 +97,7 @@ class FilesTableHeader extends Component {
   }
 }
 
-class FileRow extends Component {
+class FileRow extends React.Component {
   constructor (props) {
     super(props)
   }
@@ -113,7 +115,7 @@ class FileRow extends Component {
   }
 }
 
-class FavoriteFileButton extends Component {
+class FavoriteFileButton extends React.Component {
   constructor (props) {
     super(props)
   }
@@ -122,7 +124,7 @@ class FavoriteFileButton extends Component {
   }
 }
 
-class DeleteFileButton extends Component {
+class DeleteFileButton extends React.Component {
   constructor (props) {
     super(props)
   }

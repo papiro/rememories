@@ -71,6 +71,7 @@ exports.home = (req, res, done) => {
     err.code = 'NO_USER'
     return done(err)
   }
+  console.log(req.user)
   if (req.user.id !== req.params.id) {
     const err = new ReferenceError(`User id ${req.user.id} doesn't match home id ${req.params.id}`)  
     err.code = 'NON_MATCHING_RESOURCE'

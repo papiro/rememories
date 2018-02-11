@@ -1,5 +1,6 @@
 'use strict'
 
+import React from 'react'
 import Greeting from './Greeting'
 import DashboardTable from './DashboardTable'
 

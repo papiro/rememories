@@ -1,9 +1,9 @@
 'use strict'
 
-import { Component } from 'react'
+import React from 'react'
 import data from './data'
 
-export default class Greeting extends Component {
+export default class Greeting extends React.Component {
 	constructor	(props) {
 		super(props)
 		this.state = { name: data.name }

@@ -56,8 +56,6 @@ exports.init = (app) => {
     debug('deSerializing user')
     User.getById(id)
       .then( user => {
-        user.user_id = user.id
-        delete user.id
         delete user.password
         done(null, user)
       })

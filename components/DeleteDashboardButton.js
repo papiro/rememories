@@ -1,9 +1,9 @@
 'use strict'
 
-import { Component } from 'react'
+import React from 'react'
 import Modal from './Modal'
 
-export default class DeleteDashboardButton extends Component {
+export default class DeleteDashboardButton extends React.Component {
   constructor (props) {
     super(props)
     this.deleteDashboard = this.deleteDashboard.bind(this)

@@ -26,7 +26,7 @@ exports.init = (app) => {
   }))
   app.get(urls.landing, passport.authenticate('google', { failureRedirect: '/' }), (req, res, done) => {
     debug('Successful signin - redirecting to /home')
-    res.redirect(`/home/${req.user.id}`)
+    res.redirect(`/home`)
     done()
   })
 

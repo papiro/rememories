@@ -2,36 +2,25 @@
 
 import React from 'react'
 import Modal from './Modal'
+import DeleteResourceButton from './DeleteResourceButton'
 
 export default class DeleteDashboardButton extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { showConfirm: false }
   }
   render () {
     return (
-      <button onClick={this.verifyDelete.bind(this)} className="delete-dashboard">
-      { this.state.showConfirm  &&
-        <Modal onClose={this.closeConfirm.bind(this)}>
-          <h1>Are you sure?</h1> 
+      <DeleteResourceButton 
+        // If the dashboard contains files, prompt with "Are you sure?" dialog
+        confirm={this.props.dashboard.files > 0} 
+        className="delete-dashboard" 
+        onDelete={this.onDelete.bind(this)} 
+      >
           <p><strong>All files in this dashboard will be deleted from the server.</strong></p>
-          <button onClick={this.deleteDashboard.bind(this)}>Yes</button><button onClick={this.closeConfirm.bind(this)}>No</button>
-        </Modal>
-      }
-      </button>
+      </DeleteResourceButton>
     )
   }
-  closeConfirm () {
-    this.setState({ showConfirm: false })
-  }
-  verifyDelete () {
-    if (this.props.dashboard.files.length) {
-      this.setState({
-        showConfirm: Boolean(props.dashboard.files.length)
-      })
-    } else this.deleteDashboard()
-  }
-  deleteDashboard (evt) {
+  onDelete (evt) {
     const id = this.props.dashboard.id
     fetch(`/dashboard/${id}`, {
       method: 'DELETE',
@@ -39,6 +28,7 @@ export default class DeleteDashboardButton extends React.Component {
     }).then( res => {
       switch (res.status) {
         case 200:
+          // handle any "onDelete" handlers passed in from parent
           this.props.onDelete(id)
         default:
           console.log(res) 

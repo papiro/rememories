@@ -20,7 +20,7 @@ export default class DashboardTable extends React.Component {
 	          dashboards.map( dashboard => 
 	            <DashboardRow key={dashboard.id} dashboard={dashboard} onDelete={this.deleteRowFromState.bind(this)} />
 	          )
-	          : <tr><td colSpan="4">No dashboards created yet</td></tr>
+	          : <tr><td colSpan="4">No dashboards. Create one!</td></tr>
 	        } 
           </tbody>
 	      </table>

@@ -50,7 +50,7 @@ class HomeAction extends React.Component {
   render () {
     return (
       <Button action="home" onClick={() => {
-        window.location = `/home/${data.user_id}`
+        window.location = `/home`
       }} />
     )
   }

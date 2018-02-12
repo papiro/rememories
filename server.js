@@ -83,7 +83,7 @@ app.use( (req, res, done) => {
 
 app.use(middleware.resLocals)
 app.get('/', routes.get.index)
-app.get('/home/:id', routes.get.home)
+app.get('/home', routes.get.home)
 app.get('/dashboard/:id', routes.get.dashboard)
 app.post('/dashboard', routes.post.dashboard)
 app.put('/dashboard', routes.put.dashboard)

@@ -1,29 +1,73 @@
 'use strict'
 
 import React from 'react'
+import Modal from './Modal'
 import data from './data'
 
 console.log(data)
 
-export default class Dashboard extends React.Component {
+export default () => {
+  return (
+    <main>
+      <ActionsPanel />
+      <FilesTable />
+    </main>
+  )
+}
+
+class ActionsPanel extends React.Component {
   constructor (props) {
     super(props)
   }
   render () {
     return (
-      <main>
-        <ul className="actions-panel">
-          <li><a className="icon--home" href="/home/{data.user_id}"></a></li>
-          <li><button className="icon--invite-user"></button></li>
-          <li><button className="icon--remove-user"></button></li>
-          <li><button className="icon--upload"></button></li>
-          <li><button className="icon--filter"></button></li>
-          <li><button className="icon--favorites"></button></li>
-          <li><button className="icon--logout"></button></li>
-        </ul>
-        <FilesTable />
-      </main>
+      <ul className="actions-panel">
+        <HomeAction />
+        <li><button onClick={this.handleInviteUser} className="icon invite-user"></button></li>
+        <li><button onClick={this.handleRemoveUser} className="icon remove-user"></button></li>
+        <UploadAction />
+        <li><button onClick={this.handleFilter} className="icon filter"></button></li>
+        <li><button onClick={this.handleFavorites} className="icon favorites"></button></li>
+        <li><button onClick={this.handleLogout} className="icon logout"></button></li>
+      </ul>
     )
+  }
+}
+function Button (props) {
+  return <li><button onClick={props.onClick} className={"icon "+props.action}><span className="button-label">{props.action}</span></button></li>
+}
+class HomeAction extends React.Component {
+  render () {
+    return (
+      <Button action="home" onClick={() => {
+        window.location = `/home/${data.user_id}`
+      }} />
+    )
+  }
+}
+class UploadAction extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+  render () {
+    return (
+      <li>
+        <form ref={(form) => { this.form = form }} action="/files" encType="multipart/form-data" method="post">
+          <label className="icon upload" htmlFor="files"><span className="button-label">upload</span></label>
+          <input 
+            hidden multiple 
+            accept="image/*, video/*"
+            type="file" 
+            name="files" 
+            id="files" 
+            onChange={this.uploadFiles.bind(this)} />
+        </form>
+      </li>
+    )
+  }
+  uploadFiles ({ target }) {
+    // const { files } = target
+    this.form.submit()
   }
 }
 
@@ -35,7 +79,7 @@ class FilesTable extends React.Component {
   render () {
     const { files } = this.state
     return (
-      <table>
+      <table className="files-table">
         <FilesTableHeader />
         <tbody>
           { files.length ?
@@ -43,7 +87,7 @@ class FilesTable extends React.Component {
               <FileRow file={file} />              
             ))
           :
-            <tr><td colSpan="5">No files added yet.</td></tr>
+            <tr><td className="no-files" colSpan="5">No files added yet.</td></tr>
           }
         </tbody>
       </table>

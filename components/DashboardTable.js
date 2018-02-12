@@ -8,8 +8,6 @@ export default class DashboardTable extends React.Component {
   constructor (props) {
     super(props)
     this.state = { dashboards: data.dashboards }
-    this.addDashboard = this.addDashboard.bind(this)
-    this.deleteRowFromState = this.deleteRowFromState.bind(this)
   }
   render () {
     const { dashboards } = this.state

@@ -24,23 +24,21 @@
   vertical-align: middle;
 }
 .add-dashboard {
-  background-image: url("/img/icons/zondicons/add-solid.svg");
-  background-repeat: no-repeat;
+  background-image: url("/img/icons/feather/plus-circle.svg");
   background-position: center center;
-  height: 5em;
-  width: 5em;
+  height: 70px;
+  width: 70px;
   border-radius: 50%;
   background-color: #e4e9b2;
 }
 .delete-dashboard {
-  background-image: url("/img/icons/zondicons/trash.svg");
+  background-image: url("/img/icons/feather/trash-2.svg");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 70%;
+  background-size: 90%;
   height: 2.3em;
   width: 2.3em;
   background-color: #e4e9b2;
-  border-radius: 50%;
   box-shadow: 0 0 0.2em 0.2em #938f59;
   padding: 0.3em;
 }

@@ -22,8 +22,10 @@ const
     session: require('./server/config/session'),
     mobileDetect: require('./server/config/mobile-detect'),
     logger: require('./server/config/logger'),
-    bodyparser: require('body-parser').json(),
-    resLocals: require('./server/config/resLocals')
+//    bodyparser: require('body-parser').json(),
+    resLocals: require('./server/config/resLocals'),
+//    busboy: require('connect-busboy')
+    busboy: require('express-busboy')
   },
   routes = {
     get: {
@@ -32,7 +34,8 @@ const
       dashboard: require('./server/config/routes').dashboard.get
     },
     post: {
-      dashboard: require('./server/config/routes').dashboard.post
+      dashboard: require('./server/config/routes').dashboard.post,
+      files: require('./server/config/routes').files.post
     },
     delete: {
       dashboard: require('./server/config/routes').dashboard.delete
@@ -53,12 +56,19 @@ if (!app.get('isProd'))
   app.use(express.static('public'))
 
 app.use(middleware.session)
-app.use(middleware.bodyparser)
+//app.use(middleware.bodyparser)
+middleware.busboy.extend(app, {
+  upload: true,
+  path: path.join(__dirname, 'uploads'),
+  allowedPath: /^\/files/
+})
 app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(middleware.mobileDetect) // dependency on session
 app.use(middleware.resLocals)
+
+//app.use(middleware.busboy({ immediate: true }))
 
 app.get('/', routes.get.index)
 
@@ -80,6 +90,7 @@ app.get('/dashboard/:id', routes.get.dashboard)
 app.post('/dashboard', routes.post.dashboard)
 app.put('/dashboard', routes.put.dashboard)
 app.delete('/dashboard/:id', routes.delete.dashboard)
+app.post('/files', routes.post.files)
 
 app.use( (err, req, res, done) => {
   debug(err)

@@ -1,0 +1,52 @@
+.actions-panel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #ddede9;
+  padding: 1em 0;
+  margin-bottom: 1em;
+}
+.actions-panel .icon {
+  height: 5em;
+  width: 5em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 80%;
+  background-color: #aad3c8;
+  border: 0.125em solid #459f86;
+  position: relative;
+}
+.icon.home { background-image: url('/img/icons/feather/home.svg'); }
+.icon.invite-user { background-image: url('/img/icons/feather/user-plus.svg'); }
+.icon.remove-user { background-image: url('/img/icons/feather/user-minus.svg'); }
+.icon.upload { 
+  background-image: url('/img/icons/feather/upload.svg');
+  display: inline-block;
+  cursor: pointer;
+  color: black;
+}
+.icon.filter { background-image: url('/img/icons/feather/filter.svg'); }
+.icon.favorites { background-image: url('/img/icons/feather/star.svg'); }
+.icon.logout { background-image: url('/img/icons/feather/log-out.svg');}
+.button-label {
+  position: absolute;
+  bottom: -1em;
+  left: 2.5em;
+  display: inline-block; 
+}
+
+.files-table {
+  width: 100%;
+  text-align: center;
+}
+.files-table th, .files-table button {
+  font-size: 20px;
+  color: black;
+  background-color: transparent;
+  border: none;
+}
+.no-files {
+  padding: 2em 0;
+  font-size: 2em;
+}

@@ -6,9 +6,6 @@ import Modal from './Modal'
 export default class DeleteDashboardButton extends React.Component {
   constructor (props) {
     super(props)
-    this.deleteDashboard = this.deleteDashboard.bind(this)
-    this.closeConfirm = this.closeConfirm.bind(this)
-    this.verifyDelete = this.verifyDelete.bind(this)
     this.state = { showConfirm: false }
   }
   render () {

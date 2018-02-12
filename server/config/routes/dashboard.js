@@ -33,7 +33,7 @@ module.exports = {
     // Save the current dashboard id in the session so later when the user uploads files, we can use it.
     req.session.current_dashboard_id = dashboard_id
     const files = await Files.getByDashboardId(dashboard_id)
-    debug(files)
+    debug('files', files)
     Object.assign(res.locals.data, { files })
     res.render('index')
     done()

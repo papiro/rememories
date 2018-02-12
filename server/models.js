@@ -4,16 +4,9 @@ const
   debug = require('util').debuglog('rememories'),
   errors = require('./errors')
 ,
-  DB = require('./sql/DB')
+  DB = require('./sql/DB'),
+  pojo = require('./config/pojo')
 ;
-
-function pojo (inst) {
-  try {
-    return JSON.parse(JSON.stringify(inst))
-  } catch(e) {
-    throw inst
-  }
-}
 
 class User {
   constructor ({ id, type = 'base', name = null, email = null, password = null}) {
@@ -77,7 +70,6 @@ class Dashboard {
   static getPermForUser(args = {}) {
     return DB.getUserDashboard(args)
       .then( result => {
-        console.log(result)
         return result[0].perm
       })
   }
@@ -86,6 +78,13 @@ class Dashboard {
 class Files {
   static getByDashboardId (dashboard_id) {
     return DB.getFilesForDashboard(dashboard_id)
+      .then( results => {
+        console.log(results)
+        const ret = results.map( result => {
+          return pojo(result)
+        })
+        return ret
+      })
   }
   static save (args = {}) {
     return DB.saveFileForDashboard(args)

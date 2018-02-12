@@ -6,13 +6,23 @@ import data from './data'
 
 console.log(data)
 
-export default () => {
-  return (
-    <main>
-      <ActionsPanel />
-      <FilesTable />
-    </main>
-  )
+export default class extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { files: data.files }
+  }
+  render () {
+    const { files } = this.state
+    return (
+      <main>
+        <ActionsPanel addFiles={this.addFiles.bind(this)}/>
+        <FilesTable files={files} />
+      </main>
+    )
+  }
+  addFiles (arr) {
+    this.setState({ files: this.state.files.concat(arr) })
+  }
 }
 
 class ActionsPanel extends React.Component {
@@ -25,7 +35,7 @@ class ActionsPanel extends React.Component {
         <HomeAction />
         <li><button onClick={this.handleInviteUser} className="icon invite-user"></button></li>
         <li><button onClick={this.handleRemoveUser} className="icon remove-user"></button></li>
-        <UploadAction />
+        <UploadAction {...this.props}/>
         <li><button onClick={this.handleFilter} className="icon filter"></button></li>
         <li><button onClick={this.handleFavorites} className="icon favorites"></button></li>
         <li><button onClick={this.handleLogout} className="icon logout"></button></li>
@@ -66,25 +76,42 @@ class UploadAction extends React.Component {
     )
   }
   uploadFiles ({ target }) {
-    // const { files } = target
-    this.form.submit()
+    const formData = new FormData(this.form)
+    const files = Array.from(target.files)
+    const filedata = files.map( file => {
+      console.log(file)
+      formData.append(file.filename, file.lastModified)
+      formData.append(file.filename, file.size)
+      return {
+        filename: file.name,
+        size: file.size
+      }
+    })
+    fetch('/files', {
+      method: 'POST',
+      body: formData,
+      credentials: 'same-origin'
+    }).then( res => {
+      console.log(res)
+      this.props.addFiles(filedata)
+    }).catch(console.error)
+    //this.form.submit()
   }
 }
 
 class FilesTable extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { files: data.files }
   }
   render () {
-    const { files } = this.state
+    const { files } = this.props
     return (
       <table className="files-table">
         <FilesTableHeader />
         <tbody>
           { files.length ?
             files.map( file => (
-              <FileRow file={file} />              
+              <FileRow key={file.filename} file={file} />              
             ))
           :
             <tr><td className="no-files" colSpan="5">No files added yet.</td></tr>
@@ -149,7 +176,7 @@ class FileRow extends React.Component {
     const { file } = this.props
     return (
       <tr>
-        <th>{file.name}</th>
+        <th>{file.filename}</th>
         <th>{file.date}</th>
         <th>{file.size}</th>
         <th>{file.length}</th>

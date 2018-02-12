@@ -25,7 +25,7 @@ const
 //    bodyparser: require('body-parser').json(),
     resLocals: require('./server/config/resLocals'),
 //    busboy: require('connect-busboy')
-    busboy: require('express-busboy')
+//    busboy: require('express-busboy')
   },
   routes = {
     get: {
@@ -57,20 +57,18 @@ if (!app.get('isProd'))
 
 app.use(middleware.session)
 //app.use(middleware.bodyparser)
-middleware.busboy.extend(app, {
-  upload: true,
-  path: path.join(__dirname, 'uploads'),
-  allowedPath: /^\/files/
-})
+//middleware.busboy.extend(app, {
+//  upload: true,
+//  path: path.join(__dirname, 'uploads'),
+//  allowedPath: /^\/files/
+//})
+app.use(middleware.logger)
 app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(middleware.mobileDetect) // dependency on session
-app.use(middleware.resLocals)
 
 //app.use(middleware.busboy({ immediate: true }))
-
-app.get('/', routes.get.index)
 
 init.auth(app)
 init.db()
@@ -83,8 +81,8 @@ app.use( (req, res, done) => {
   } else done()
 })
 
-app.use(middleware.logger)
-
+app.use(middleware.resLocals)
+app.get('/', routes.get.index)
 app.get('/home/:id', routes.get.home)
 app.get('/dashboard/:id', routes.get.dashboard)
 app.post('/dashboard', routes.post.dashboard)
@@ -94,7 +92,10 @@ app.post('/files', routes.post.files)
 
 app.use( (err, req, res, done) => {
   debug(err)
-  switch (err.code) {
+  const { code } = err
+  switch (code) {
+    case 'FILE_ALREADY_EXISTS':
+      res.status(409).json({ code })
     case 'NO_USER':
     case 'NOT_AUTHENTICATED':
       if (!couldBeAuthenticating(req.url))

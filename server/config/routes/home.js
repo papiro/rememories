@@ -22,7 +22,7 @@ module.exports = (req, res, done) => {
   Dashboard.getById(req.user.id).then( dashboards => {
     debug(`dashboards gotten using id ${req.user.id}:::`)
     debug(dashboards)
-    Object.assign(res.locals.data, { dashboards })
+    Object.assign(res.locals.data, { dashboards, name: req.user.name })
     res.render('index')
     done()
   }).catch( err => {

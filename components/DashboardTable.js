@@ -18,13 +18,13 @@ export default class DashboardTable extends React.Component {
           <tbody>
 	        {dashboards.length ? 
 	          dashboards.map( dashboard => 
-	            <DashboardRow key={dashboard.id} dashboard={dashboard} onDelete={this.deleteRowFromState} />
+	            <DashboardRow key={dashboard.id} dashboard={dashboard} onDelete={this.deleteRowFromState.bind(this)} />
 	          )
 	          : <tr><td colSpan="4">No dashboards created yet</td></tr>
 	        } 
           </tbody>
 	      </table>
-	      <button onClick={this.addDashboard} className="add-dashboard"></button>
+	      <button onClick={this.addDashboard.bind(this)} className="add-dashboard"></button>
       </section>
     )
   }

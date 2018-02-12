@@ -3,7 +3,8 @@
 const
   debug = require('util').debuglog('rememories'),
   path = require('path'),
-  fs = require('fs-extra')
+  fs = require('fs-extra'),
+  Busboy = require('busboy')
 ,
   models = require('../../models'),
   { Dashboard, Files } = models
@@ -11,26 +12,76 @@ const
 
 module.exports = {
   async post (req, res, done) {
-    const dashboard_dir = path.join('/var','lib', 'mysql', 'uploads', req.session.current_dashboard_id)
+    const 
+      { current_dashboard_id } = req.session,
+      dashboard_dir = path.join('/var','lib', 'mysql', 'uploads', current_dashboard_id),
+      busboy = new Busboy({ headers: req.headers })
+    ;
+
+    debug(`Uploading files to dashboard ${current_dashboard_id}.`)
 
     try {
       await fs.mkdirp(dashboard_dir)
     } catch (e) {
-      return done(err) 
+      return done(err)
     }
 
-    const { files } = req
-    for (let i = 0; i < files.length; i++) {
-      const { uuid, file, filename, encoding, mimetype } = files
-      const newFilename = path.join(dashboard_dir, uuid)
-      Promise.all(
-        fs.move(file, newFilename),
-        Files.save({ file: newFilename, filename, encoding, mimetype })   
-      ).then( results => {
-        console.log('results!', results)
-      }).catch( err => {
-        console.error(err) 
-      })
-    }
+    const promises = []
+    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+      promises.push(new Promise( (resolve, reject) => {
+        const filepath = path.join(dashboard_dir, filename)
+        const fstream = fs.createWriteStream(filepath, { flags: 'wx' }) // write fails if file exists
+        console.log(`setting up fstream on ${filepath}.`)
+        fstream.on('error', err => {
+          if (err.code === 'EEXIST') {
+            err = new Error('File already exists')
+            err.code = 'FILE_ALREADY_EXISTS'
+          } 
+          reject(err, filename)
+        })
+
+        fstream.on('finish', async () => {
+          let size
+          try {
+            size = (await fs.stat(filepath)).size
+          } catch (e) {
+            return reject(e)
+          }
+          debug('filesize:::', size)
+          Files.save({ size, filepath, filename, encoding, mimetype, dashboard_id: current_dashboard_id })   
+            .then(resolve)
+            .catch( e => {
+              // clean up file if database entry fails
+              fs.unlink(filepath)
+              reject(e)
+            })
+        })
+        file.pipe(fstream)
+      }))
+    })
+
+    busboy.on('finish', () => {
+      Promise.all(promises.map( p => p.catch(e => e)))
+        .then( results => {
+          console.log('success!')
+          res.status(200).json({ 
+            status: results.map( result => {
+              if (result instanceof Error) {
+                result.error = true
+                return result
+              } else
+                return true
+            })
+          })
+          done()
+        })
+        .catch( err => {
+          console.log('fail :(')
+          console.error(err)
+          done(err)
+        })
+    })
+
+    req.pipe(busboy)
   }
 }

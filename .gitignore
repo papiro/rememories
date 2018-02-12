@@ -2,3 +2,4 @@ node_modules/
 .directory
 public/js/dist.js
 uploads/
+yarn.lock

@@ -87,6 +87,9 @@ class Files {
   static getByDashboardId (dashboard_id) {
     return DB.getFilesForDashboard(dashboard_id)
   }
+  static save (args = {}) {
+    return DB.saveFileForDashboard(args)
+  }
 }
 
 // Private; junction table

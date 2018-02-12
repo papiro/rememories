@@ -27,7 +27,8 @@ const
   insert = {
     user: require('./inserts/user'),
     dashboard: require('./inserts/dashboard'),
-    userdashboard: require('./inserts/userdashboard')
+    userdashboard: require('./inserts/userdashboard'),
+    files: require('./inserts/file')
   }
 ,
   remove = {
@@ -85,6 +86,9 @@ class DB {
   }
   static getFilesForDashboard (dashboard_id) {
     return query(select.files(dashboard_id))
+  }
+  static saveFileForDashboard (args = {}) {
+    return query(insert.files(args))
   }
 }
 

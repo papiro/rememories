@@ -21,6 +21,6 @@ module.exports = (req, res, done) => {
     mobdet = detectMobile(req)
 
   req.isMobile = mobdet
-  debug('isMobile:::', mobdet) 
+  debug('isMobile', mobdet) 
   done()
 }

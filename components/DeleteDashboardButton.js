@@ -10,12 +10,12 @@ export default class DeleteDashboardButton extends React.Component {
   }
   render () {
     return (
-      <button onClick={this.verifyDelete} className="delete-dashboard">
+      <button onClick={this.verifyDelete.bind(this)} className="delete-dashboard">
       { this.state.showConfirm  &&
-        <Modal onClose={this.closeConfirm}>
+        <Modal onClose={this.closeConfirm.bind(this)}>
           <h1>Are you sure?</h1> 
           <p><strong>All files in this dashboard will be deleted from the server.</strong></p>
-          <button onClick={this.deleteDashboard}>Yes</button><button onClick={this.closeConfirm}>No</button>
+          <button onClick={this.deleteDashboard.bind(this)}>Yes</button><button onClick={this.closeConfirm.bind(this)}>No</button>
         </Modal>
       }
       </button>

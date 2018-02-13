@@ -26,7 +26,7 @@
 }
 .actions-panel .icon.filter { background-image: url('/img/icons/feather/filter.svg'); }
 /*use this for the row-action too*/.icon.favorites, .icon.favorite { background-image: url('/img/icons/feather/star.svg'); }
-.row-actions .icon.favorite-action { background-image: url('/img/icons/star_active.svg'); }
+.row-actions .icon.favorite-active { background-image: url('/img/icons/star_active.svg'); }
 .actions-panel .icon.logout { background-image: url('/img/icons/feather/log-out.svg');}
 
 .button-label {

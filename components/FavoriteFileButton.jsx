@@ -1,13 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import LocalStorage from './LocalStorage.jsx'
 
-export default class FavoriteFileButton extends React.PureComponent {
+export default class FavoriteFileButton extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { favorite: false }
+  }
   render () {
     return (
-      <button 
-        className={"icon " + ( this.props.favorite ? "favorite-active" : "favorite" )}
-        onClick={this.context.setFileState.bind(this, this.props.fileid, { favorite: true })}
-       />
+      <React.Fragment>
+        <LocalStorage 
+          _key={this.props.fileid + this.props.filename}
+          from={this.state} 
+          to={this.setState.bind(this)} />
+        <button 
+          className={"icon favorite" + ( this.state.favorite ? "-active" : "" )}
+          onClick={() => { this.setState({ favorite: !this.state.favorite })}}
+         />
+      </React.Fragment>
     )
   }
 }

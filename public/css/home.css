@@ -31,14 +31,19 @@
   border-radius: 50%;
   background-color: #e4e9b2;
 }
-.delete-dashboard {
-  background-image: url("/img/icons/feather/trash-2.svg");
+.icon {
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center center; 
+}
+.row-actions .icon {
   background-size: 90%;
   height: 2.3em;
   width: 2.3em;
   background-color: #e4e9b2;
   box-shadow: 0 0 0.2em 0.2em #938f59;
   padding: 0.3em;
+  font-size: 1em;
+}
+.row-actions .icon.delete {
+  background-image: url("/img/icons/feather/trash-2.svg");
 }

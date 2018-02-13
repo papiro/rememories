@@ -10,25 +10,25 @@
 .actions-panel .icon {
   height: 5em;
   width: 5em;
-  background-repeat: no-repeat;
-  background-position: center center;
   background-size: 80%;
   background-color: #aad3c8;
   border: 0.125em solid #459f86;
   position: relative;
 }
-.icon.home { background-image: url('/img/icons/feather/home.svg'); }
-.icon.invite-user { background-image: url('/img/icons/feather/user-plus.svg'); }
-.icon.remove-user { background-image: url('/img/icons/feather/user-minus.svg'); }
-.icon.upload { 
+.actions-panel .icon.home { background-image: url('/img/icons/feather/home.svg'); }
+.actions-panel .icon.invite-user { background-image: url('/img/icons/feather/user-plus.svg'); }
+.actions-panel .icon.remove-user { background-image: url('/img/icons/feather/user-minus.svg'); }
+.actions-panel .icon.upload { 
   background-image: url('/img/icons/feather/upload.svg');
   display: inline-block;
   cursor: pointer;
   color: black;
 }
-.icon.filter { background-image: url('/img/icons/feather/filter.svg'); }
-.icon.favorites { background-image: url('/img/icons/feather/star.svg'); }
-.icon.logout { background-image: url('/img/icons/feather/log-out.svg');}
+.actions-panel .icon.filter { background-image: url('/img/icons/feather/filter.svg'); }
+/*use this for the row-action too*/.icon.favorites, .icon.favorite { background-image: url('/img/icons/feather/star.svg'); }
+.row-actions .icon.favorite-action { background-image: url('/img/icons/star_active.svg'); }
+.actions-panel .icon.logout { background-image: url('/img/icons/feather/log-out.svg');}
+
 .button-label {
   position: absolute;
   bottom: -1em;

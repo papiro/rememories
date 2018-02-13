@@ -1,6 +1,6 @@
 import React from 'react'
-import FilesTableHeader from './FilesTableHeader'
-import FileRow from './FileRow'
+import FilesTableHeader from './FilesTableHeader.jsx'
+import FileRow from './FileRow.jsx'
 
 export default class FilesTable extends React.PureComponent {
   render () {

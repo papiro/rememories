@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Modal from './Modal'
-import DeleteResourceButton from './DeleteResourceButton'
-import DeleteFileButton from './DeleteFileButton'
-import ActionsPanel from './ActionsPanel'
-import FilesTable from './FilesTable'
+import Modal from './Modal.jsx'
+import DeleteResourceButton from './DeleteResourceButton.jsx'
+import DeleteFileButton from './DeleteFileButton.jsx'
+import ActionsPanel from './ActionsPanel.jsx'
+import FilesTable from './FilesTable.jsx'
 import data from './data'
 
 console.log(data)

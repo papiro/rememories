@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import DashboardRow from './DashboardRow'
+import DashboardRow from './DashboardRow.jsx'
 import data from './data'
 
 export default class DashboardTable extends React.Component {

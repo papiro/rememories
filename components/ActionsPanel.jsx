@@ -1,8 +1,8 @@
 'use strict'
 
 import React from 'react'
-import Home from './actions/Home'
-import Upload from './actions/Upload'
+import Home from './actions/Home.jsx'
+import Upload from './actions/Upload.jsx'
 
 export default class ActionsPanel extends React.PureComponent {
   render () {

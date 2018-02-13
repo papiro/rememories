@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import DeleteDashboardButton from './DeleteDashboardButton'
+import DeleteDashboardButton from './DeleteDashboardButton.jsx'
 
 function dateFormat (str) {
   return (new Date(str)).toLocaleString()

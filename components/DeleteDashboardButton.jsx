@@ -1,6 +1,6 @@
 import React from 'react'
-import Modal from './Modal'
-import DeleteResourceButton from './DeleteResourceButton'
+import Modal from './Modal.jsx'
+import DeleteResourceButton from './DeleteResourceButton.jsx'
 
 export default class DeleteDashboardButton extends React.PureComponent {
   render () {

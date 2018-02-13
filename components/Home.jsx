@@ -1,8 +1,8 @@
 'use strict'
 
 import React from 'react'
-import Greeting from './Greeting'
-import DashboardTable from './DashboardTable'
+import Greeting from './Greeting.jsx'
+import DashboardTable from './DashboardTable.jsx'
 
 export default () => {
   setTimeout( () => {

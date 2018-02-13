@@ -1,9 +1,8 @@
 import React from 'react'
+import DeleteFileButton from './DeleteFileButton.jsx'
+import FavoriteFileButton from './FavoriteFileButton.jsx'
 
 export default class FileRow extends React.PureComponent {
-  constructor (props) {
-    super(props)
-  }
   render () {
     const { file } = this.props
     return (
@@ -12,7 +11,10 @@ export default class FileRow extends React.PureComponent {
         <td>{file.date}</td>
         <td>{file.size}</td>
         <td>{file.length}</td>
-        <td className="row-actions"><FavoriteFileButton /><DeleteFileButton /></td>
+        <td className="row-actions">
+          <FavoriteFileButton favorite={file.favorite} fileid={file.id} />
+          <DeleteFileButton />
+        </td>
       </tr>
     )
   }

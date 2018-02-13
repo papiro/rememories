@@ -1,5 +1,5 @@
 import React from 'react'
-import Modal from './Modal'
+import Modal from './Modal.jsx'
 
 export default class extends React.PureComponent {
 	constructor (props) {

@@ -6,9 +6,9 @@ import {
   Switch
 } from 'react-router-dom'
 
-import Signin from './components/Signin'
-import Home from './components/Home'
-import Dashboard from './components/Dashboard'
+import Signin from './components/Signin.jsx'
+import Home from './components/Home.jsx'
+import Dashboard from './components/Dashboard.jsx'
 
 class ErrorBoundary extends React.Component {
   constructor (props) {

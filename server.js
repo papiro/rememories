@@ -22,10 +22,7 @@ const
     session: require('./server/config/session'),
     mobileDetect: require('./server/config/mobile-detect'),
     logger: require('./server/config/logger'),
-//    bodyparser: require('body-parser').json(),
     resLocals: require('./server/config/resLocals'),
-//    busboy: require('connect-busboy')
-//    busboy: require('express-busboy')
   },
   routes = {
     get: {
@@ -38,7 +35,8 @@ const
       files: require('./server/config/routes').files.post
     },
     delete: {
-      dashboard: require('./server/config/routes').dashboard.delete
+      dashboard: require('./server/config/routes').dashboard.delete,
+      files: require('./server/config/routes').files.delete
     },
     put: {
       dashboard: require('./server/config/routes').dashboard.put
@@ -89,6 +87,7 @@ app.post('/dashboard', routes.post.dashboard)
 app.put('/dashboard', routes.put.dashboard)
 app.delete('/dashboard/:id', routes.delete.dashboard)
 app.post('/files', routes.post.files)
+app.delete('/files/:id', routes.delete.files)
 
 app.use( (err, req, res, done) => {
   debug(err)
@@ -107,6 +106,7 @@ app.use( (err, req, res, done) => {
     case 'USER_DASHBOARD_MIXUP':
     case 'UNAUTHORIZED_DASHBOARD_DELETE':
     case 'UNAUTHORIZED_DASHBOARD_VIEW':
+    case 'UNAUTHORIZED_FILE_DELETE':
       res.sendStatus(403)
       break
     default:

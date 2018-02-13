@@ -89,6 +89,13 @@ class Files {
   static save (args = {}) {
     return DB.saveFileForDashboard(args)
   }
+  static async hasDeletePermission ({ user_id, dashboard_id }) {
+    const dashboardPerm = await Dashboard.getPermForUser({ user_id, dashboard_id })
+    return dashboardPerm < 2
+  }
+  static delete (file_id) {
+    return DB.deleteFile(file_id)
+  }
 }
 
 // Private; junction table

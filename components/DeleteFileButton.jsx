@@ -11,18 +11,22 @@ export default class DeleteFileButton extends React.PureComponent {
            />
   }
   onDelete (evt) {
-    const id = this.props.file.id
-    fetch(`/dashboard/${id}`, {
+    const id = this.props.file_id
+    fetch(`/files/${id}`, {
       method: 'DELETE',
       credentials: 'same-origin'
     }).then( res => {
       switch (res.status) {
         case 200:
           // handle any "onDelete" handlers passed in from parent
-          this.props.onDelete(id)
+          this.context.deleteRow(id)
         default:
           console.log(res) 
       }
     }).catch(console.error)
   }
+}
+
+DeleteFileButton.childContextTypes = {
+  deleteRow: PropTypes.func
 }

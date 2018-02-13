@@ -32,7 +32,8 @@ const
   }
 ,
   remove = {
-    dashboard: require('./deletes/dashboard')
+    dashboard: require('./deletes/dashboard'),
+    file: require('./deletes/file')
   }
 ;
 
@@ -89,6 +90,9 @@ class DB {
   }
   static saveFileForDashboard (args = {}) {
     return query(insert.files(args))
+  }
+  static deleteFile (file_id) {
+    return query(remove.file(file_id))
   }
 }
 

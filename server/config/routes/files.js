@@ -11,6 +11,28 @@ const
 ;
 
 module.exports = {
+  async delete (req, res, done) {
+    const
+      user_id = req.user.id,
+      dashboard_id = req.session.current_dashboard_id,
+      file_id = req.params.id
+    ;
+    const hasDeletePermission = await Files.hasDeletePermission({ user_id, dashboard_id, file_id })
+    if (!hasDeletePermission) {
+      const err = new Error(`You do not have permissions to delete file ${file_id}.`)
+      err.code = 'UNAUTHORIZED_FILE_DELETE'
+      return done(err)
+    }
+    debug('Has permission to delete file.')
+    Files.delete(file_id)
+      .then( results => {
+        debug(results)
+        res.sendStatus(200)
+        done()
+      }).catch( err => {
+        done(err)
+      })
+  },
   async post (req, res, done) {
     const 
       { current_dashboard_id } = req.session,

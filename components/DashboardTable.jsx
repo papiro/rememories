@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import DashboardRow from './DashboardRow.jsx'
 import data from './data'
 
@@ -18,7 +19,7 @@ export default class DashboardTable extends React.Component {
           <tbody>
 	        {dashboards.length ? 
 	          dashboards.map( dashboard => 
-	            <DashboardRow key={dashboard.id} dashboard={dashboard} onDelete={this.deleteRowFromState.bind(this)} />
+	            <DashboardRow key={dashboard.id} dashboard={dashboard} />
 	          )
 	          : <tr><td colSpan="4">No dashboards. Create one!</td></tr>
 	        } 
@@ -28,8 +29,15 @@ export default class DashboardTable extends React.Component {
       </section>
     )
   }
-  deleteRowFromState (dashboard_id) {
-    this.setState({ dashboards: this.state.dashboards.filter( dashboard => dashboard.id !== dashboard_id )})
+  getChildContext () {
+    return {
+      deleteRow: this.deleteRow
+    }
+  }
+  deleteRow (dashboard_id) {
+    this.setState( (state, props) => {
+      return { dashboards: state.dashboards.filter( dashboard => dashboard.id !== dashboard_id ) }
+    })
   }
   addDashboard (evt) {
     fetch('/dashboard', {
@@ -40,4 +48,8 @@ export default class DashboardTable extends React.Component {
       res.json().then( data => { this.setState({ dashboards: data.dashboards }) })
     }).catch(console.error)
   }
+}
+
+DashboardTable.childContextTypes = {
+  deleteRow: PropTypes.func
 }

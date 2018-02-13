@@ -13,7 +13,11 @@ export default function DashboardRow ({ dashboard, onDelete }) {
       <td><a href={"/dashboard/" + dashboard.id}>{dashboard.name || dashboard.id}</a></td>
       <td>{dashboard.files}</td>
       <td>{dateFormat(dashboard.created)}</td>
-      <td className="row-actions"><DeleteDashboardButton onDelete={onDelete} dashboard={dashboard}/></td>
+      <td className="row-actions">
+        <DeleteDashboardButton 
+          dashboard_files={dashboard.files} 
+          dashboard_id={dashboard.id} />
+      </td>
     </tr>
   )
 }

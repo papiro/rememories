@@ -3,8 +3,12 @@ import FilesTableHeader from './FilesTableHeader.jsx'
 import FileRow from './FileRow.jsx'
 
 export default class FilesTable extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.state = { files: props.files }
+  }
   render () {
-    const { files } = this.props
+    const { files } = this.state
     return (
       <table className="files-table">
         <FilesTableHeader />
@@ -19,5 +23,15 @@ export default class FilesTable extends React.PureComponent {
         </tbody>
       </table>
     )
+  }
+  getChildContext () {
+    return {
+      deleteRow: this.deleteRow
+    }
+  }
+  deleteRow (file_id) {
+    this.setState( (state, props) => {
+      return { files: state.files.filter( file => file.id !== file_id ) }
+    })
   }
 }

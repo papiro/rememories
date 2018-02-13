@@ -12,8 +12,8 @@ export default class FileRow extends React.PureComponent {
         <td>{file.size}</td>
         <td>{file.length}</td>
         <td className="row-actions">
-          <FavoriteFileButton fileid={file.id} filename={file.filename}/>
-          <DeleteFileButton />
+          <FavoriteFileButton file_id={file.id} filename={file.filename}/>
+          <DeleteFileButton file_id={file.id} />
         </td>
       </tr>
     )

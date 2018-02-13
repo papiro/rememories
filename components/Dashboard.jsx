@@ -9,12 +9,11 @@ import data from './data'
 
 console.log(data)
 
+// not used but want to keep and don't know where to put it
 if (!Array.prototype.findIndex) {
   Array.prototype.findIndex = function (fn) {
     for (let i = 0; i < this.length; i++) {
-      if (fn(this[i]))
-        return i
-    }
+      if (fn(this[i])) return i
     return -1
   }
 }

@@ -17,7 +17,7 @@ module.exports = {
       dashboard_id = req.session.current_dashboard_id,
       file_id = req.params.id
     ;
-    const hasDeletePermission = await Files.hasDeletePermission({ user_id, dashboard_id, file_id })
+    const hasDeletePermission = await Files.hasDeletePermission({ user_id, dashboard_id })
     if (!hasDeletePermission) {
       const err = new Error(`You do not have permissions to delete file ${file_id}.`)
       err.code = 'UNAUTHORIZED_FILE_DELETE'
@@ -26,7 +26,6 @@ module.exports = {
     debug('Has permission to delete file.')
     Files.delete(file_id)
       .then( results => {
-        debug(results)
         res.sendStatus(200)
         done()
       }).catch( err => {
@@ -53,7 +52,7 @@ module.exports = {
       promises.push(new Promise( (resolve, reject) => {
         const filepath = path.join(dashboard_dir, filename)
         const fstream = fs.createWriteStream(filepath, { flags: 'wx' }) // write fails if file exists
-        console.log(`setting up fstream on ${filepath}.`)
+        debug(`setting up fstream on ${filepath}.`)
         fstream.on('error', err => {
           if (err.code === 'EEXIST') {
             err = new Error('File already exists')
@@ -71,7 +70,9 @@ module.exports = {
           }
           debug('filesize:::', size)
           Files.save({ size, filepath, filename, encoding, mimetype, dashboard_id: current_dashboard_id })   
-            .then(resolve)
+            .then( results => {
+              resolve(results[0])
+            })
             .catch( e => {
               // clean up file if database entry fails
               fs.unlink(filepath)
@@ -85,20 +86,22 @@ module.exports = {
     busboy.on('finish', () => {
       Promise.all(promises.map( p => p.catch(e => e)))
         .then( results => {
+          console.log(results)
           console.log('success!')
           res.status(200).json({ 
             status: results.map( result => {
               if (result instanceof Error) {
                 result.error = true
                 return result
-              } else
-                return true
+              } else {
+                console.log(result)
+                return { id: result.insertId }
+              }
             })
           })
           done()
         })
         .catch( err => {
-          console.log('fail :(')
           console.error(err)
           done(err)
         })

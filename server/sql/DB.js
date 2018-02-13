@@ -1,7 +1,8 @@
 'use strict'
 
 const
-  debug = require('util').debuglog('rememories')
+  debug = require('util').debuglog('rememories'),
+  pojo = require('../config/pojo')
 ,
   mysql = require('mysql2'),
   connection = mysql.createConnection({
@@ -21,7 +22,8 @@ const
     user: require('./selects/user'),
     dashboards: require('./selects/dashboards'),
     userdashboards: require('./selects/userdashboards'),
-    files: require('./selects/files')
+    files: require('./selects/files'),
+    file: require('./selects/file')
   }
 ,
   insert = {
@@ -39,9 +41,10 @@ const
 
 function query (query) {
   return new Promise( (resolve, reject) => {
-    connection.query(query, (err, ...res) => {
+    console.log(query)
+    connection.query(query, (err, results) => {
       if (err) return reject(err)
-      resolve(...res)
+      resolve([].concat(results).map( result => pojo(result) ))
     })
   })
 }
@@ -87,6 +90,9 @@ class DB {
   }
   static getFilesForDashboard (dashboard_id) {
     return query(select.files(dashboard_id))
+  }
+  static getFileById (file_id) {
+    return query(select.file(file_id))
   }
   static saveFileForDashboard (args = {}) {
     return query(insert.files(args))

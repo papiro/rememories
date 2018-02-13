@@ -31,7 +31,7 @@ export default class DashboardTable extends React.Component {
   }
   getChildContext () {
     return {
-      deleteRow: this.deleteRow
+      deleteRow: this.deleteRow.bind(this)
     }
   }
   deleteRow (dashboard_id) {

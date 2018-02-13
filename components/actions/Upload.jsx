@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class UploadAction extends React.PureComponent {
   render () {
@@ -36,9 +37,18 @@ export default class UploadAction extends React.PureComponent {
       body: formData,
       credentials: 'same-origin'
     }).then( res => {
-      console.log(res)
-      this.props.addFiles(filedata)
+      res.json()
+        .then( res => {
+          res.status.forEach( (result, i) => {
+            filedata[i].id = result.id
+          })
+          console.log(filedata)
+          this.context.addRows(filedata)
+        })
     }).catch(console.error)
-    //this.form.submit()
   }
+}
+
+UploadAction.contextTypes = {
+  addRows: PropTypes.func
 }

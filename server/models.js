@@ -2,7 +2,8 @@
 
 const
   debug = require('util').debuglog('rememories'),
-  errors = require('./errors')
+  errors = require('./errors'),
+  fs = require('fs-extra')
 ,
   DB = require('./sql/DB'),
   pojo = require('./config/pojo')
@@ -31,7 +32,7 @@ class Dashboard {
     if (!user_id) return errors(new ReferenceError('Creation of new Dashboard needs user_id to associate with'))
 
     await DB.startTransaction()
-      const result1 = await DB.addDashboard({ type }) 
+      const result1 = (await DB.addDashboard({ type }))[0]
       debug('added dashboard')
       let result2
       try {
@@ -86,15 +87,25 @@ class Files {
         return ret
       })
   }
+  static getById (file_id) {
+    return DB.getFileById(file_id)
+  }
   static save (args = {}) {
     return DB.saveFileForDashboard(args)
   }
   static async hasDeletePermission ({ user_id, dashboard_id }) {
     const dashboardPerm = await Dashboard.getPermForUser({ user_id, dashboard_id })
-    return dashboardPerm < 2
+    return dashboardPerm >= 2
   }
-  static delete (file_id) {
-    return DB.deleteFile(file_id)
+  static async delete (file_id) {
+    let file = (await this.getById(file_id))
+    if (!file.length) {
+      const err = new ReferenceError('File being deleted doesn\'t exist.')
+      err.code = 'FILE_DOESN\'T_EXIST'
+      return errors(err)
+    } else { file = file[0] }
+    await fs.unlink(file.filepath)
+    return await DB.deleteFile(file_id)
   }
 }
 

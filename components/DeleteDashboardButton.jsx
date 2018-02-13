@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Modal from './Modal.jsx'
 import DeleteResourceButton from './DeleteResourceButton.jsx'
 
@@ -14,7 +15,7 @@ export default class DeleteDashboardButton extends React.PureComponent {
     )
   }
   onDelete (evt) {
-    const id = this.props.dashboard.id
+    const id = this.props.dashboard_id
     fetch(`/dashboard/${id}`, {
       method: 'DELETE',
       credentials: 'same-origin'
@@ -29,6 +30,6 @@ export default class DeleteDashboardButton extends React.PureComponent {
   }
 }
 
-DeleteDashboardButton.childContextTypes = {
+DeleteDashboardButton.contextTypes = {
   deleteRow: PropTypes.func
 }

@@ -1,11 +1,11 @@
 import React from 'react'
-import Modal from './Modal.jsx'
+import PropTypes from 'prop-types'
 import DeleteResourceButton from './DeleteResourceButton.jsx'
 
 export default class DeleteFileButton extends React.PureComponent {
   render () {
     return <DeleteResourceButton 
-            confirm 
+            //confirm
             onDelete={this.onDelete.bind(this)}
             message="This file will be deleted from the server."
            />
@@ -18,8 +18,7 @@ export default class DeleteFileButton extends React.PureComponent {
     }).then( res => {
       switch (res.status) {
         case 200:
-          // handle any "onDelete" handlers passed in from parent
-          this.context.deleteRow(id)
+          this.context.deleteRows(id)
         default:
           console.log(res) 
       }
@@ -27,6 +26,6 @@ export default class DeleteFileButton extends React.PureComponent {
   }
 }
 
-DeleteFileButton.childContextTypes = {
-  deleteRow: PropTypes.func
+DeleteFileButton.contextTypes = {
+  deleteRows: PropTypes.func
 }

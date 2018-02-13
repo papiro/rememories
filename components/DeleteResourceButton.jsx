@@ -16,12 +16,16 @@ export default class extends React.PureComponent {
         <Modal onClose={this.closeConfirm.bind(this)}>
           <h1>Are you sure?</h1> 
           {this.props.children}
-          <button onClick={this.props.onDelete}>Yes</button>
+          <button onClick={this.onClickYes.bind(this)}>Yes</button>
           <button onClick={this.closeConfirm.bind(this)}>No</button>
         </Modal>
       }
       </button>
     )
+  }
+  onClickYes (evt) {
+    this.props.onDelete(evt)
+    this.closeConfirm(evt)
   }
   closeConfirm (evt) {
     evt.stopPropagation()

@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import Button from '../Button'
+import Button from '../Button.jsx'
 
 export default class HomeAction extends React.PureComponent {
   render () {

@@ -1,7 +1,7 @@
 'use strict'
 
 const
-  port = 80
+  port = 6002
 ,
   debug = require('util').debuglog('rememories')
 ,

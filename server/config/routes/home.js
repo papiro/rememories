@@ -3,8 +3,7 @@
 const
   debug = require('util').debuglog('rememories')
 ,
-  models = require('../../models'),
-  { Dashboard } = models
+  { Dashboard } = require('../../models')
 ;
 
 module.exports = (req, res, done) => {
@@ -14,11 +13,6 @@ module.exports = (req, res, done) => {
     err.code = 'NO_USER'
     return done(err)
   }
-//  if (req.user.id !== req.params.id) {
-//    const err = new ReferenceError(`User id ${req.user.id} doesn't match home id ${req.params.id}`)  
-//    err.code = 'NON_MATCHING_RESOURCE'
-//    return done(err)
-//  }
   Dashboard.getById(user.id).then( dashboards => {
     debug(`dashboards gotten using id ${user.id}:::`)
     debug(dashboards)

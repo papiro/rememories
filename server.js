@@ -50,23 +50,12 @@ function couldBeAuthenticating (requrl) {
 
 init.app(app)
 
-if (!app.get('isProd'))
-  app.use(express.static('public'))
-
 app.use(middleware.session)
-//app.use(middleware.bodyparser)
-//middleware.busboy.extend(app, {
-//  upload: true,
-//  path: path.join(__dirname, 'uploads'),
-//  allowedPath: /^\/files/
-//})
 app.use(middleware.logger)
 app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(middleware.mobileDetect) // dependency on session
-
-//app.use(middleware.busboy({ immediate: true }))
 
 init.auth(app)
 init.db()

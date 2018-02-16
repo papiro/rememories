@@ -14,18 +14,32 @@ const
 
 const
   urls = {
-    signin: '/sign-in/google',
-    landing: '/auth/google'
+    google: {
+      signin: '/sign-in/google',
+      landing: '/auth/google'
+    },
+    facebook: {
+      signin: '/sign-in/facebook',
+      landing: '/auth/facebook'
+    }
   }
 ;
 
 exports.urls = urls
 
 exports.init = (app) => {
-  app.get(urls.signin, passport.authenticate('google', {
+  app.get(urls.facebook.signin, passport.authenticate('facebook', {
     scope: ['profile', 'email']
   }))
-  app.get(urls.landing, passport.authenticate('google', { failureRedirect: '/' }), (req, res, done) => {
+  app.get(urls.facebook.landing, passport.authenticate('facebook', { failureRedirect: '/' }), (req, res, done) => {
+    debug('Successful signin - redirecting to /home')
+    res.redirect(`/home`)
+    done()
+  })
+  app.get(urls.google.signin, passport.authenticate('google', {
+    scope: ['profile', 'email']
+  }))
+  app.get(urls.google.landing, passport.authenticate('google', { failureRedirect: '/' }), (req, res, done) => {
     debug('Successful signin - redirecting to /home')
     res.redirect(`/home`)
     done()

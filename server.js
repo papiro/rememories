@@ -45,7 +45,16 @@ const
 ;
 
 function couldBeAuthenticating (requrl) {
-  return ~['/', auth.urls.signin, auth.urls.landing].indexOf(requrl)
+  const { facebook, google } = auth.urls
+  const bool = ~[
+      '/', 
+      facebook.signin, 
+      facebook.landing, 
+      google.signin,
+      google.landing
+    ].indexOf(requrl)
+  debug(`User ${bool ? 'could be' : 'not'} authenticating because visiting ${requrl}`)
+  return bool
 }
 
 init.app(app)

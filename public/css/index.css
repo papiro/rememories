@@ -1,7 +1,12 @@
 :root {
   color: #b5cbb7;
 }
-
+body {
+  padding-top: 1.5em;
+}
+.signin-page {
+  height: 50vh;
+}
 main {
 /*   height: 50vh; */
   width: 100vw;
@@ -19,12 +24,14 @@ button {
 }
 .signin-widgets {
   display: flex;
+  flex-basis: 50%;
 }
 .signin-widgets a {
   height: 10em;
   width: 10em;
   background-repeat: no-repeat;
   background-size: contain;
+  margin: 0 1em;
 }
 .google-button {
   background-image: url('/img/icons/google_button_normal.svg');

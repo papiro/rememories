@@ -8,7 +8,7 @@ function SigninWidget (props) {
 
 export default function () {
   return (
-    <main>
+    <main className="signin-page">
       <h2>Sign-in with</h2>
       <div className='signin-widgets'>
         <SigninWidget type='google'></SigninWidget>

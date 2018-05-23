@@ -8,6 +8,7 @@ const
   connection = mysql.createConnection({
     host: 'localhost',
     user: 'pierre',
+    password: global.secrets.mysql,
     database: 'rememories'
   })
 ,

@@ -1,5 +1,7 @@
 'use strict'
 
+Object.assign(global, { secrets: require('./.secrets') })
+
 const
   port = 6002
 ,

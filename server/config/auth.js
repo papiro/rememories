@@ -5,83 +5,83 @@ const
   User = require('../models').User
 ,
   passport = require('passport'),
-  strategies = {
-    google: require('passport-google-oauth').OAuth2Strategy,
-    facebook: require('passport-facebook').Strategy
-  }
+  strategies = [
+    {
+      name: 'google',
+      strategy: require('passport-google-oauth').OAuth2Strategy,
+      urls: {
+        signin: '/sign-in/google',
+        landing: '/auth/google'
+      },
+      scope: ['profile', 'email'],
+      clientID: '796666915392-7fnpjjcjs9v6ek83343gs84gg80m9hdi.apps.googleusercontent.com',
+      cb: (accessToken, refreshToken, profile, done) => {
+        const { id, displayName, emails } = profile;
+        const user = { id, name: displayName, email: emails[0].value }
+        debug(user)
+        const newUser = (new User(user))
+        newUser
+          .then( () => {
+            debug('User added or user exists')
+            done(null, user)
+          })
+          .catch( err => {
+            done(err)
+          })
+      }
+    },
+    {
+      name: 'facebook',
+      strategy: require('passport-facebook').Strategy,
+      urls: {
+        signin: '/sign-in/facebook',
+        landing: '/auth/facebook'
+      },
+      scope: ['public_profile', 'email'],
+      clientID: '186168231982225',
+      cb: (accessToken, refreshToken, profile, done) => {
+        console.log(profile)
+        const { id, displayName, emails } = profile;
+        const user = { id, name: displayName }
+        debug(user)
+        const newUser = (new User(user))
+        newUser
+          .then( () => {
+            debug('User added or user exists')
+            done(null, user)
+          })
+          .catch( err => {
+            done(err)
+          })
+      }
+    }
+  ]
   //redisc = require('redis').createClient()
 ;
 
-const
-  urls = {
-    google: {
-      signin: '/sign-in/google',
-      landing: '/auth/google'
-    },
-    facebook: {
-      signin: '/sign-in/facebook',
-      landing: '/auth/facebook'
-    }
-  }
-;
-
-exports.urls = urls
+exports.urls = strategies.reduce( (urls, strat) => {
+  urls[strat.name] = strat.urls; 
+  return urls;
+}, {})
 
 exports.init = (app) => {
-  app.get(urls.facebook.signin, passport.authenticate('facebook', {
-    scope: ['profile', 'email']
-  }))
-  app.get(urls.facebook.landing, passport.authenticate('facebook', { failureRedirect: '/' }), (req, res, done) => {
-    debug('Successful signin - redirecting to /home')
-    res.redirect(`/home`)
-    done()
+  strategies.forEach( s => {
+    app.get(s.urls.signin, passport.authenticate(s.name, {
+      scope: s.scope
+    }))
+    app.get(s.urls.landing, passport.authenticate(s.name, { failureRedirect: '/' }), (req, res, done) => {
+      debug('Successful signin - redirecting to /home')
+      res.redirect(`/home`)
+      done()
+    })
+    passport.use(new s.strategy({
+      clientID: s.clientID,
+      clientSecret: global.secrets[s.name],
+      callbackURL: 'https://rememories.com' + s.urls.landing,
+      enableProof: true
+    }, s.cb))
   })
-  app.get(urls.google.signin, passport.authenticate('google', {
-    scope: ['profile', 'email']
-  }))
-  app.get(urls.google.landing, passport.authenticate('google', { failureRedirect: '/' }), (req, res, done) => {
-    debug('Successful signin - redirecting to /home')
-    res.redirect(`/home`)
-    done()
-  })
 
-  passport.use(new strategies.facebook({
-    clientID: '186168231982225',
-    clientSecret: '791e34294ca803def327abab9b3e48d5',
-    callbackURL: 'http://rememories.com/auth/facebook'
-  }, (accessToken, refreshToken, profile, done) => {
-    const { id, displayName, emails } = profile;
-    const user = { id, name: displayName, email: emails[0].value }
-    debug(user)
-    const newUser = (new User(user))
-    newUser
-      .then( () => {
-        debug('User added or user exists')
-        done(null, user)
-      })
-      .catch( err => {
-        done(err)
-      })
-  }))
-
-  passport.use(new strategies.google({
-    clientID: '796666915392-7fnpjjcjs9v6ek83343gs84gg80m9hdi.apps.googleusercontent.com',
-    clientSecret: 'OtScuriff7NobYr8c-ci2gvB',
-    callbackURL: 'http://rememories.com/auth/google'
-  }, (accessToken, refreshToken, profile, done) => {
-    const { id, displayName, emails } = profile;
-
-    const user = { id, name: displayName, email: emails[0].value }
-    const newUser = (new User(user))
-    newUser
-      .then( () => {
-        debug('User added or user exists')
-        done(null, user)
-      })
-      .catch( err => {
-        done(err)
-      })
-  }))
   passport.serializeUser( (user, done) => {
     debug('Serializing user:::', user)
     done(null, user.id)

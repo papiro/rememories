@@ -1,6 +1,6 @@
 'use strict'
 
-Object.assign(global, { secrets: require('./.secrets') })
+Object.assign(global, { cfg: require('./rememories.cfg.json') })
 
 const
   port = 6002

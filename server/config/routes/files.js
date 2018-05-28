@@ -35,7 +35,7 @@ module.exports = {
   async post (req, res, done) {
     const 
       { current_dashboard_id } = req.session,
-      dashboard_dir = path.join('/var','lib', 'mysql', 'uploads', current_dashboard_id),
+      dashboard_dir = path.join(dashboard_path, current_dashboard_id),
       busboy = new Busboy({ headers: req.headers })
     ;
 

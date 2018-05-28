@@ -4,4 +4,4 @@ public/js/dist.js
 uploads/
 yarn.lock
 dump.rdb
-.secrets.json
+rememories.cfg.json

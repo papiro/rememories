@@ -1,15 +1,17 @@
 'use strict'
 
+const { cfg } = global;
+const { mysql: mysql_cfg, app } = cfg;
 const
-  debug = require('util').debuglog('rememories'),
+  debug = require('util').debuglog(app.name),
   pojo = require('../config/pojo')
 ,
   mysql = require('mysql2'),
   connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'pierre',
-    password: global.secrets.mysql,
-    database: 'rememories'
+    host: mysql_cfg.host,
+    user: mysql_cfg.user,
+    password: mysql_cfg.password,
+    database: app.name
   })
 ,
   table = {

@@ -1,7 +1,8 @@
 'use strict'
 
+const { cfg } = global;
 const
-  debug = require('util').debuglog('rememories'),
+  debug = require('util').debuglog(cfg.app.name),
   User = require('../models').User
 ,
   passport = require('passport'),
@@ -14,7 +15,7 @@ const
         landing: '/auth/google'
       },
       scope: ['profile', 'email'],
-      clientID: '796666915392-7fnpjjcjs9v6ek83343gs84gg80m9hdi.apps.googleusercontent.com',
+      clientID: cfg.google.client_id,
       cb: (accessToken, refreshToken, profile, done) => {
         const { id, displayName, emails } = profile;
         const user = { id, name: displayName, email: emails[0].value }
@@ -38,7 +39,7 @@ const
         landing: '/auth/facebook'
       },
       scope: ['public_profile', 'email'],
-      clientID: '186168231982225',
+      clientID: cfg.facebook.client_id,
       cb: (accessToken, refreshToken, profile, done) => {
         console.log(profile)
         const { id, displayName, emails } = profile;
@@ -71,13 +72,13 @@ exports.init = (app) => {
     }))
     app.get(s.urls.landing, passport.authenticate(s.name, { failureRedirect: '/' }), (req, res, done) => {
       debug('Successful signin - redirecting to /home')
-      res.redirect(`/home`)
+      res.redirect('/home')
       done()
     })
     passport.use(new s.strategy({
       clientID: s.clientID,
-      clientSecret: global.secrets[s.name],
-      callbackURL: 'https://rememories.com' + s.urls.landing,
+      clientSecret: cfg[s.name].client_secret,
+      callbackURL: cfg.app.url + s.urls.landing,
       enableProof: true
     }, s.cb))
   })

@@ -1,20 +1,20 @@
 'use strict'
 
 const
-  debug = require('util').debuglog('rememories'),
+  debug = require('util').debuglog(global.cfg.app.name),
   wrapQuotes = require('../utils/wrapQuotes')
 ;
 
-module.exports = ({ size, filepath, filename, encoding, mimetype, dashboard_id }) => {
+module.exports = ({ size, filepath, filename, encoding, mimetype, album_id }) => {
   return `INSERT INTO files (
-    dashboard_id,
+    album_id,
     filepath,
     filename,
     encoding,
     size,
     mimetype
   ) VALUES (
-      ${wrapQuotes(dashboard_id)},
+      ${wrapQuotes(album_id)},
       ${wrapQuotes(filepath)},
       ${wrapQuotes(filename)},
       ${wrapQuotes(encoding)},

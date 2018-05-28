@@ -3,7 +3,7 @@
 const
   MobileDetect = require('mobile-detect')
 ,
-  debug = require('util').debuglog('rememories')
+  debug = require('util').debuglog(global.cfg.app.name)
 ;
 
 function detectMobile (req) {

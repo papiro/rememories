@@ -1,9 +1,9 @@
 'use strict'
 
 const
-  debug = require('util').debuglog('rememories')
+  debug = require('util').debuglog(global.cfg.app.name)
 ,
-  { Dashboard } = require('../../models')
+  { Album } = require('../../models')
 ;
 
 module.exports = (req, res, done) => {
@@ -13,10 +13,10 @@ module.exports = (req, res, done) => {
     err.code = 'NO_USER'
     return done(err)
   }
-  Dashboard.getById(user.id).then( dashboards => {
-    debug(`dashboards gotten using id ${user.id}:::`)
-    debug(dashboards)
-    Object.assign(res.locals.data, { dashboards, name: user.name })
+  Album.getById(user.id).then( albums => {
+    debug(`albums gotten using id ${user.id}:::`)
+    debug(albums)
+    Object.assign(res.locals.data, { albums, name: user.name })
     res.render('index')
     done()
   }).catch( err => {

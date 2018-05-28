@@ -12,12 +12,12 @@ module.exports = (user_id) => {
     (
       SELECT
       COUNT(f.id) FROM files f
-      WHERE f.dashboard_id=d.id
+      WHERE f.album_id=d.id
     ) AS files
-  FROM dashboards d
-  JOIN userdashboards ud
-  ON ud.user_id = ${user_id}
-    AND ud.dashboard_id = d.id
-  WHERE ud.perm != -1
+  FROM albums a
+  JOIN useralbums ua
+  ON ua.user_id = ${user_id}
+    AND ua.album_id = a.id
+  WHERE ua.perm != -1
   GROUP BY d.id;`
 }

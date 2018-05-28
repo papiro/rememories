@@ -4,10 +4,10 @@ const
   wrapQuotes = require('../utils/wrapQuotes')
 ;
 
-module.exports = ({ type, name }) => {
-  return `INSERT INTO dashboards (
+module.exports = ({ name }) => {
+  return `INSERT INTO albums (
     name,
-    type
+    //type
   ) VALUES (
     ${name ? wrapQuotes(name) : "NULL"},
     ${wrapQuotes(type)}

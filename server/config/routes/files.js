@@ -1,23 +1,23 @@
 'use strict'
 
 const
-  debug = require('util').debuglog('rememories'),
+  debug = require('util').debuglog(global.cfg.app.name),
   path = require('path'),
   fs = require('fs-extra'),
   Busboy = require('busboy')
 ,
   models = require('../../models'),
-  { Dashboard, Files } = models
+  { Album, Files } = models
 ;
 
 module.exports = {
   async delete (req, res, done) {
     const
       user_id = req.user.id,
-      dashboard_id = req.session.current_dashboard_id,
+      album_id = req.session.current_album_id,
       file_id = req.params.id
     ;
-    const hasDeletePermission = await Files.hasDeletePermission({ user_id, dashboard_id })
+    const hasDeletePermission = await Files.hasDeletePermission({ user_id, album_id })
     if (!hasDeletePermission) {
       const err = new Error(`You do not have permissions to delete file ${file_id}.`)
       err.code = 'UNAUTHORIZED_FILE_DELETE'
@@ -34,23 +34,23 @@ module.exports = {
   },
   async post (req, res, done) {
     const 
-      { current_dashboard_id } = req.session,
-      dashboard_dir = path.join(dashboard_path, current_dashboard_id),
+      { current_album_id } = req.session,
+      album_dir = path.join(global.cfg.uploads_dir, current_album_id),
       busboy = new Busboy({ headers: req.headers })
     ;
 
-    debug(`Uploading files to dashboard ${current_dashboard_id}.`)
+    debug(`Uploading files to album ${current_album_id}.`)
 
     try {
-      await fs.mkdirp(dashboard_dir)
+      await fs.mkdirp(album_dir)
     } catch (e) {
-      return done(err)
+      return done(e)
     }
 
     const promises = []
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
       promises.push(new Promise( (resolve, reject) => {
-        const filepath = path.join(dashboard_dir, filename)
+        const filepath = path.join(album_dir, filename)
         const fstream = fs.createWriteStream(filepath, { flags: 'wx' }) // write fails if file exists
         debug(`setting up fstream on ${filepath}.`)
         fstream.on('error', err => {
@@ -69,7 +69,7 @@ module.exports = {
             return reject(e)
           }
           debug('filesize:::', size)
-          Files.save({ size, filepath, filename, encoding, mimetype, dashboard_id: current_dashboard_id })   
+          Files.save({ size, filepath, filename, encoding, mimetype, album_id: current_album_id })   
             .then( results => {
               resolve(results[0])
             })

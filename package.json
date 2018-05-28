@@ -4,7 +4,7 @@
   "description": "share photos and videos with friends and families",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_DEBUG=rememories node server",
+    "start": "yarn watch & NODE_DEBUG=rememories node server",
     "build": "yarn run webpack --config webpack.config.js",
     "watch": "yarn run webpack --watch --config webpack.config.js",
     "buildprod": "yarn run webpack --config webpack.config.js --env.production"

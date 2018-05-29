@@ -30,18 +30,18 @@ const
     get: {
       home: require('./server/config/routes').home,
       index: require('./server/config/routes').index,
-      dashboard: require('./server/config/routes').dashboard.get
+      album: require('./server/config/routes').album.get
     },
     post: {
-      dashboard: require('./server/config/routes').dashboard.post,
+      album: require('./server/config/routes').album.post,
       files: require('./server/config/routes').files.post
     },
     delete: {
-      dashboard: require('./server/config/routes').dashboard.delete,
+      album: require('./server/config/routes').album.delete,
       files: require('./server/config/routes').files.delete
     },
     put: {
-      dashboard: require('./server/config/routes').dashboard.put
+      album: require('./server/config/routes').album.put
     }
   }
 ;
@@ -82,10 +82,10 @@ app.use( (req, res, done) => {
 app.use(middleware.resLocals)
 app.get('/', routes.get.index)
 app.get('/home', routes.get.home)
-app.get('/dashboard/:id', routes.get.dashboard)
-app.post('/dashboard', routes.post.dashboard)
-app.put('/dashboard', routes.put.dashboard)
-app.delete('/dashboard/:id', routes.delete.dashboard)
+app.get('/album/:id', routes.get.album)
+app.post('/album', routes.post.album)
+app.put('/album', routes.put.album)
+app.delete('/album/:id', routes.delete.album)
 app.post('/files', routes.post.files)
 app.delete('/files/:id', routes.delete.files)
 
@@ -103,9 +103,9 @@ app.use( (err, req, res, done) => {
         res.sendStatus(401)
       break
     case 'NON_MATCHING_RESOURCE':
-    case 'USER_DASHBOARD_MIXUP':
-    case 'UNAUTHORIZED_DASHBOARD_DELETE':
-    case 'UNAUTHORIZED_DASHBOARD_VIEW':
+    case 'USER_ALBUM_MIXUP':
+    case 'UNAUTHORIZED_ALBUM_DELETE':
+    case 'UNAUTHORIZED_ALBUM_VIEW':
     case 'UNAUTHORIZED_FILE_DELETE':
       res.sendStatus(403)
       break

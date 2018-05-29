@@ -25,7 +25,7 @@ module.exports = {
         err.code = 'NON_MATCHING_RESOURCE'
       } else {
         err = new ReferenceError('User doesn\'t have read access to album.')  
-        err.code = 'UNAUTHORIZED_DASHBOARD_VIEW'
+        err.code = 'UNAUTHORIZED_ALBUM_VIEW'
       }
       return done(err)
     }

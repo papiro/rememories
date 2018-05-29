@@ -54,13 +54,13 @@ class Album {
       .then( res => {
         if (!res.length) {
           const err = new ReferenceError('Album being deleted by user is not related to user')
-          err.code = 'USER_DASHBOARD_MIXUP'
+          err.code = 'USER_ALBUM_MIXUP'
           throw err
         }
         debug('Validated that album is related to user')
         if (res[0].perm < 3) {
           const err = new TypeError('User is not owner so cannot delete album')
-          err.code = 'UNAUTHORIZED_DASHBOARD_DELETE'
+          err.code = 'UNAUTHORIZED_ALBUM_DELETE'
           throw err
         }
         debug('User is owner so authorized for delete')

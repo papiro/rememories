@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Greeting from './Greeting.jsx'
-import DashboardTable from './DashboardTable.jsx'
+import AlbumTable from './AlbumTable.jsx'
 
 export default () => {
   setTimeout( () => {
@@ -11,7 +11,7 @@ export default () => {
   return (
     <main>
       <Greeting />
-      <DashboardTable />
+      <AlbumTable />
     </main>
   )
 }

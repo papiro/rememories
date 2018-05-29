@@ -46,19 +46,6 @@ const
   }
 ;
 
-function couldBeAuthenticating (requrl) {
-  const { facebook, google } = auth.urls
-  const bool = ~[
-      '/', 
-      facebook.signin, 
-      facebook.landing, 
-      google.signin,
-      google.landing
-    ].indexOf(requrl)
-  debug(`User ${bool ? 'could be' : 'not'} authenticating because visiting ${requrl}`)
-  return bool
-}
-
 init.app(app)
 
 app.use(middleware.session)
@@ -71,12 +58,22 @@ app.use(middleware.mobileDetect) // dependency on session
 init.auth(app)
 init.db()
 
-app.use( (req, res, done) => {
-  if (!req.isAuthenticated() && !couldBeAuthenticating(req.url)) {
+const { facebook, google } = auth.urls
+const skip_urls = [
+  '/', 
+  facebook.signin, 
+  facebook.landing, 
+  google.signin,
+  google.landing
+]
+app.use((req, res, done) => {
+  if (req.isAuthenticated() || ~skip_urls.indexOf(req.url)) {
+    done()
+  } else {
     const err = new Error('Not authenticated')
     err.code = 'NOT_AUTHENTICATED'
     done(err)
-  } else done()
+  }
 })
 
 app.use(middleware.resLocals)
@@ -97,9 +94,6 @@ app.use( (err, req, res, done) => {
       res.status(409).json({ code })
     case 'NO_USER':
     case 'NOT_AUTHENTICATED':
-      if (!couldBeAuthenticating(req.url))
-        res.redirect('/')
-      else
         res.sendStatus(401)
       break
     case 'NON_MATCHING_RESOURCE':

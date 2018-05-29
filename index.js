@@ -8,7 +8,7 @@ import {
 
 import Signin from './components/Signin.jsx'
 import Home from './components/Home.jsx'
-import Dashboard from './components/Dashboard.jsx'
+import Album from './components/Album.jsx'
 
 class ErrorBoundary extends React.Component {
   constructor (props) {
@@ -34,7 +34,7 @@ function App () {
       <Switch>
         <Route exact path='/' component={Signin}/>
         <Route path='/home' component={Home}/>
-        <Route path='/dashboard/:id' component={Dashboard}/>
+        <Route path='/album/:id' component={Album}/>
       </Switch>
     </Router>
   )

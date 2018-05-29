@@ -71,7 +71,7 @@ class Album {
   static getPermForUser(args = {}) {
     return DB.getUserAlbum(args)
       .then( result => {
-        return result[0].perm
+        return result.length ? result[0].perm : -1
       })
   }
 }

@@ -17,8 +17,13 @@ module.exports = {
       err.code = 'NO_USER'
       return done(err)
     }
-    let perm
-    if (perm = Album.getPermForUser({ album_id, user_id }) < 1) {
+    let perm;
+    try {
+      perm = await Album.getPermForUser({ album_id, user_id })
+    } catch (e) {
+      return done(e)
+    }
+    if (perm < 1) {
       let err
       if (perm === -1) {
         err = new ReferenceError('User not registered as user of album.')  

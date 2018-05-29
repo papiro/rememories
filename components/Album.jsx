@@ -18,7 +18,7 @@ if (!Array.prototype.findIndex) {
   }
 }
 
-export default class Dashboard extends React.Component {
+export default class Album extends React.Component {
   constructor (props) {
     super(props)
     this.state = { files: data.files }
@@ -74,7 +74,7 @@ export default class Dashboard extends React.Component {
   }
 }
 
-Dashboard.childContextTypes = {
+Album.childContextTypes = {
   addRows: PropTypes.func,
   deleteRows: PropTypes.func
 }

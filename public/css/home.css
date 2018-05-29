@@ -1,29 +1,29 @@
 .greeting {
   color: #818479;
 }
-.dashboard-section {
+.album-section {
   display: flex;
   flex-direction: column;
   align-items:  center;
   width: 80%;
 }
-.dashboard-table {
+.album-table {
   flex-basis: 100%; 
   width: 100%;
   text-align: center;
 }
-.dashboard-table th {
+.album-table th {
   color: #818479;
   border-bottom: 0.5em solid #e4e9b2;
   padding: 0.3em;
 }
-.dashboard-table td {
+.album-table td {
   padding: 1em;
   background-color: #818479;
   color: #e7e08b;
   vertical-align: middle;
 }
-.add-dashboard {
+.add-album {
   background-image: url("/img/icons/feather/plus-circle.svg");
   background-position: center center;
   height: 70px;

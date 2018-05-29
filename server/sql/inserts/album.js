@@ -6,10 +6,8 @@ const
 
 module.exports = ({ name }) => {
   return `INSERT INTO albums (
-    name,
-    //type
+    name
   ) VALUES (
-    ${name ? wrapQuotes(name) : "NULL"},
-    ${wrapQuotes(type)}
+    ${name ? wrapQuotes(name) : "NULL"}
   );` 
 }

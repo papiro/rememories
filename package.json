@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "NODE_DEBUG=rememories node server",
+    "debug": "NODE_DEBUG=rememories node --inspect server",
     "build": "yarn run webpack --config webpack.config.js",
     "watch": "yarn run webpack --watch --config webpack.config.js",
     "buildprod": "yarn run webpack --config webpack.config.js --env.production"

@@ -87,14 +87,15 @@ app.post('/files', routes.post.files)
 app.delete('/files/:id', routes.delete.files)
 
 app.use( (err, req, res, done) => {
-  debug(err)
+  debug(req.url, err)
   const { code } = err
   switch (code) {
     case 'FILE_ALREADY_EXISTS':
-      res.status(409).json({ code })
+      res.status(409).json({ error: true, code })
+      break
     case 'NO_USER':
     case 'NOT_AUTHENTICATED':
-        res.sendStatus(401)
+      res.sendStatus(401)
       break
     case 'NON_MATCHING_RESOURCE':
     case 'USER_ALBUM_MIXUP':

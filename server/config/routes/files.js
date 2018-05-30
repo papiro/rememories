@@ -84,26 +84,27 @@ module.exports = {
     })
 
     busboy.on('finish', () => {
+      // Don't let any of these file upload attempts fail the whole batch
       Promise.all(promises.map( p => p.catch(e => e)))
         .then( results => {
-          console.log(results)
-          console.log('success!')
-          res.status(200).json({ 
-            status: results.map( result => {
-              if (result instanceof Error) {
-                result.error = true
-                return result
-              } else {
-                console.log(result)
-                return { id: result.insertId }
-              }
-            })
+          let err_count = 0;
+          const status = results.map( result => {
+            if (result instanceof Error) {
+              err_count++;
+              return Object.assign(result, { error: true })
+            } else {
+              return { id: result.insertId }
+            }
           })
-          done()
-        })
-        .catch( err => {
-          console.error(err)
-          done(err)
+
+
+          // if all files failed, just send the error object of one, since they're all the same anyways
+          if (err_count === results.length) {
+            done(status[0])
+          } else {
+            res.status(200).json({ status })
+            done()
+          }
         })
     })
 

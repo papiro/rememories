@@ -39,10 +39,10 @@ export default class UploadAction extends React.PureComponent {
     }).then( res => {
       res.json()
         .then( res => {
+          if (res.error){}
           res.status.forEach( (result, i) => {
             filedata[i].id = result.id
           })
-          console.log(filedata)
           this.context.addRows(filedata)
         })
     }).catch(console.error)
